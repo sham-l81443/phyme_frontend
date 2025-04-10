@@ -1,0 +1,13 @@
+# .prettierignore
+.next/
+node_modules/
+build/
+dist/
+public/
+coverage/
+*.log
+.env
+.husky/
+*.lock          
+tmp/
+*.snap         
