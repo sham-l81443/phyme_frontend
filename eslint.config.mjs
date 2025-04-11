@@ -27,11 +27,9 @@ const eslintConfig = [
       "react/no-unescaped-entities": "off",
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",
-       
       "jsx-a11y/alt-text": "error",
       "jsx-a11y/aria-props": "error",
       "jsx-a11y/aria-role": "error",
-       
       "import/order": [
         "error",
         {
@@ -41,12 +39,47 @@ const eslintConfig = [
         },
       ],
       "import/no-duplicates": "error",
-       
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/explicit-member-accessibility": "off",
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
     },
+    ignores: [
+      // Ignore shadcn/ui components
+      "src/components/ui/**/*",
+      
+      // Build output directories
+      ".next/**/*",
+      "out/**/*",
+      "build/**/*",
+      "dist/**/*",
+      
+      // Node modules
+      "node_modules/**/*",
+      
+      // Environment files
+      ".env*.local",
+      
+      // Public assets
+      "public/**/*",
+      
+      // Generated files
+      "**/*.generated.ts",
+      "**/*.generated.tsx",
+      
+      // Third-party code or libraries
+      "src/lib/third-party/**/*",
+      
+      // Test files
+      "**/*.test.ts",
+      "**/*.test.tsx",
+      "**/*.spec.ts",
+      "**/*.spec.tsx",
+      
+      // Temporary files that might cause conflicts
+      "**/.git/**",
+      "**/.husky/**",
+    ],
   },
 ];
 
