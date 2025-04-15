@@ -12,7 +12,7 @@ const Page = ({
   className?: string;
 }) => {
     return (
-        <main
+        <div
             className={cn(
                 "h-screen overflow-hidden w-full flex",
                 direction === "row" ? "flex-row" : "flex-col",
@@ -20,8 +20,8 @@ const Page = ({
             )}
         >
             {children}
-        </main>
+        </div>
     );
 };
 
-export default Page;
+export  {Page};

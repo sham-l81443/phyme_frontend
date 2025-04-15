@@ -2,6 +2,8 @@ import axios from "axios";
 
 import { AppError } from "@/utils/app-error";
 import logger from "@/utils/logger";
+import { setStudentDataById } from "@/store/student/studentStore";
+import { STUDENT_STORE_KEY } from "@/store/store-key";
 
 const axiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -23,6 +25,7 @@ axiosInstance.interceptors.response.use(
             logger.info(apiEndpoint);
 
             if (status === 401) {
+                setStudentDataById(STUDENT_STORE_KEY.IS_STUDENT_LOGGED_IN, false, 'persist')
                 window.location.href = "/login";
             }
 
@@ -49,8 +52,8 @@ axiosInstance.interceptors.response.use(
 );
 
 const ERROR_TYPES: Record<
-  400 | 401 | 403 | 404 | 500,
-  "Bad Request" | "Unauthorized" | "Forbidden" | "Not Found" | "Internal Server Error"
+    400 | 401 | 403 | 404 | 500,
+    "Bad Request" | "Unauthorized" | "Forbidden" | "Not Found" | "Internal Server Error"
 > = {
     400: "Bad Request",
     401: "Unauthorized",

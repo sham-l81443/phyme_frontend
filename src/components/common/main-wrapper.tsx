@@ -2,9 +2,9 @@ import React from "react";
 
 import { cn } from "@/lib/utils";
 
-import { AlertDialog, AlertDialogContent, AlertDialogTitle } from "../ui/alert-dialog";
+import {LoadingDialog} from "./loading-dialog";
 
-import Spinner from "./spinner";
+
 
 const Main = ({
     children,
@@ -12,33 +12,25 @@ const Main = ({
     className,
     loading,
 }: {
-  children?: React.ReactNode;
-  direction?: "row" | "column";
-  className?: string;
-  loading?: boolean;
+    children?: React.ReactNode;
+    direction?: "row" | "column";
+    className?: string;
+    loading?: boolean;
 }) => {
     return (
-        <div
+        <main
             className={cn(
-                "h-full overflow-hidden w-full flex bg-teal-200",
+                "h-full overflow-hidden w-full flex ",
                 direction === "row" ? "flex-row" : "flex-col",
                 className && className,
             )}
         >
-            {loading ? <LoadingUi /> : children}
-        </div>
+            {loading ? <LoadingDialog /> : <></>}
+            {children}
+        </main>
     );
 };
 
-export default Main;
+export {Main};
 
-const LoadingUi = () => {
-    return (
-        <AlertDialog open={true}>
-            <AlertDialogTitle />
-            <AlertDialogContent className="center bg-transparent border-none shadow-none">
-                <Spinner />
-            </AlertDialogContent>
-        </AlertDialog>
-    );
-};
+

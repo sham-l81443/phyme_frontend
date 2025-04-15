@@ -1,12 +1,11 @@
-import React from "react";
+import { Page, Main } from "@/components/common";
 
-import Main from "@/components/common/main-wrapper";
-import Page from "@/components/common/page-wrapper";
+
 
 const Loading = () => {
     return (
         <Page>
-            <Main loading></Main>
+            <Main loading={true}></Main>
         </Page>
     );
 };
