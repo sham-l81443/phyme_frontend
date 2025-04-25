@@ -32,38 +32,38 @@ const ContentProtection: React.FC<{
         };
 
         // DevTools detection: Window size method
-        const checkWindowSize = () => {
-            const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-            const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+        // const checkWindowSize = () => {
+        //     const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+        //     const heightThreshold = window.outerHeight - window.innerHeight > threshold;
 
-            if (widthThreshold || heightThreshold) {
-                triggerProtection();
-                return true;
-            }
-            return false;
-        };
+        //     if (widthThreshold || heightThreshold) {
+        //         triggerProtection();
+        //         return true;
+        //     }
+        //     return false;
+        // };
 
         // DevTools detection: Console method
-        const detectConsole = () => {
-            const element = document.createElement('div');
-            Object.defineProperty(element, 'id', {
-                get: function () {
-                    triggerProtection();
-                    return 'id';
-                }
-            });
-            console.log(element);
-        };
+        // const detectConsole = () => {
+        //     const element = document.createElement('div');
+        //     Object.defineProperty(element, 'id', {
+        //         get: function () {
+        //             triggerProtection();
+        //             return 'id';
+        //         }
+        //     });
+        //     console.log(element);
+        // };
 
         // DevTools detection: Debugger method
-        const detectDebugger = () => {
-            const start = performance.now();
-            debugger;
-            const end = performance.now();
-            if (end - start > 100) {
-                triggerProtection();
-            }
-        };
+        // const detectDebugger = () => {
+        //     const start = performance.now();
+        //     // debugger;
+        //     const end = performance.now();
+        //     if (end - start > 100) {
+        //         triggerProtection();
+        //     }
+        // };
 
         // Prevent right-click
         const handleContextMenu = (e: MouseEvent) => {
@@ -98,34 +98,28 @@ const ContentProtection: React.FC<{
         // Disable selection
         const disableSelection = () => {
             document.body.style.userSelect = 'none';
-            document.body.style.webkitUserSelect = 'none';
-            document.body.style.msUserSelect = 'none';
-            document.body.style.mozUserSelect = 'none';
         };
 
         // Set up detection intervals
-        const intervalId = setInterval(() => {
-            checkWindowSize();
-            detectConsole();
-            detectDebugger();
-        }, 1000);
+        // const intervalId = setInterval(() => {
+        //     checkWindowSize();
+        //     detectConsole();
+        //     detectDebugger();
+        // }, 10000000);
 
         // Add all event listeners
         document.addEventListener('contextmenu', handleContextMenu);
         document.addEventListener('keydown', handleKeyDown);
-        window.addEventListener('resize', checkWindowSize);
+        // window.addEventListener('resize', checkWindowSize);
         disableSelection();
 
         // Clean up
         return () => {
-            clearInterval(intervalId);
+            // clearInterval(intervalId);
             document.removeEventListener('contextmenu', handleContextMenu);
             document.removeEventListener('keydown', handleKeyDown);
-            window.removeEventListener('resize', checkWindowSize);
+            // window.removeEventListener('resize', checkWindowSize);
             document.body.style.userSelect = '';
-            document.body.style.webkitUserSelect = '';
-            document.body.style.msUserSelect = '';
-            document.body.style.mozUserSelect = '';
         };
     }, [isProtected, onProtectionTriggered]);
 

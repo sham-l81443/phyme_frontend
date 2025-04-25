@@ -6,4 +6,4 @@ export * from "./spinner"
 export * from "./loading-dialog"
 export * from "./video-card"
 export * from "./video-player"
-
+export * from "./default-page-loader"

@@ -5,18 +5,19 @@ import { Main } from "../common"
 
 import DashboardTitle from "./dashboard-title"
 import ContentProtection from "../common/protection-wrapper"
+import AdminSidebar from "../admin/admin-sidebar"
 
-export default function MainContent({ children }: { children: React.ReactNode }) {
+export default function MainContent({ children, usageType }: { children: React.ReactNode, usageType: 'ADMIN' | 'STUDENT' }) {
 
 
     return (
         <ContentProtection>
-            <SidebarProvider>
+            <SidebarProvider className="bg-background ">
 
-                <StudentSideBar />
-                <SidebarInset className="overflow-auto flex flex-col">
-                    <header className="flex min-h-12 items-center gap-4 border-b bg-background px-4">
-                        <SidebarTrigger />
+                {usageType === 'STUDENT' ? <StudentSideBar /> : <AdminSidebar />}
+                <SidebarInset className="overflow-auto flex flex-col ">
+                    <header className="flex min-h-14 items-center gap-4 px-4 bg-white overflow-hidden ">
+                        <SidebarTrigger className="hover:bg-background" />
                         <div className="flex-1">
                             <DashboardTitle />
                         </div>
@@ -24,7 +25,7 @@ export default function MainContent({ children }: { children: React.ReactNode })
                         </div>
                     </header>
 
-                    <Main>
+                    <Main className="bg-background p-1 rounded-sm ">
                         {children}
                     </Main>
                 </SidebarInset>

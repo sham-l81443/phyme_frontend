@@ -15,13 +15,15 @@ import { ISignUpFormValues, signupSchema } from "@/lib/validations"
 import { Checkbox } from '@/components/ui/checkbox'
 import { showError, showSuccess } from "@/lib/toast"
 import logger from "@/utils/logger"
+import { SVG } from "@/assets/svg"
+import Image from "next/image"
+import { useState } from "react"
 const Signup = () => {
 
   const form = useForm({
     defaultValues: {
-      name: '',
+
       email: '',
-      phone: '',
       terms: false,
       registrationType: "DEFAULT"
     },
@@ -30,7 +32,20 @@ const Signup = () => {
 
 
   const router = useRouter()
+  const [isSsoLoading, setIsSsoLoading] = useState(false)
 
+  const handleGoogleRegister = () => {
+    setIsSsoLoading(true)
+    try {
+
+      router.push(`http://localhost:3001/api/google/callback/register`)
+
+    } catch (error) {
+      showError('Something went wrong')
+    }
+
+
+  }
 
   const mutation = useMutation({
     mutationFn: signupStudent,
@@ -51,7 +66,7 @@ const Signup = () => {
   }
 
   return (
-    <Section loading={isPending} className="center">
+    <Section loading={isPending || isSsoLoading} className="center">
       <Scroll direction="column" className="center min-h-screen px-4 sm:px-6 md:px-10 max-w-[30rem] ">
         <div className='self-start mb-6'>
           <p className='text-3xl font-bold text-gray-600 self-start'>SIGN UP</p>
@@ -60,7 +75,7 @@ const Signup = () => {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='w-full flex flex-col gap-y-5'>
-            <FormField
+            {/* <FormField
               control={form.control}
               name='name'
               render={({ field, fieldState }) => (
@@ -70,7 +85,7 @@ const Signup = () => {
                   </FormControl>
                   {fieldState.error ? <FormMessage className='text-xs ml-1' /> : <></>}
                 </FormItem>
-              )} />
+              )} /> */}
 
             <FormField
               control={form.control}
@@ -84,7 +99,7 @@ const Signup = () => {
                 </FormItem>
               )} />
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name='phone'
               render={({ field, fieldState }) => (
@@ -95,7 +110,7 @@ const Signup = () => {
                   <FormDescription>(optional)</FormDescription>
                   {fieldState.error ? <FormMessage className='text-xs ml-1' /> : <></>}
                 </FormItem>
-              )} />
+              )} /> */}
 
             <FormField
               control={form.control}
@@ -126,16 +141,17 @@ const Signup = () => {
 
           </form>
         </Form>
-        {/* <div className='flex items-center gap-2 w-full mt-7'>
-            <p className='h-[2px] flex-1 bg-zinc-200 rounded-sm'></p>
-            <p className='text-muted-foreground text-xs'> Or Login with Google</p>
-            <p className='h-[2px] flex-1 bg-zinc-200 rounded-sm'></p>
+        <div className='flex items-center gap-2 w-full mt-7'>
+          <p className='h-[2px] flex-1 bg-zinc-200 rounded-sm'></p>
+          <p className='text-muted-foreground text-xs'> Or signup with Google</p>
+          <p className='h-[2px] flex-1 bg-zinc-200 rounded-sm'></p>
         </div>
-        <Button className='w-full bg-secondary text-muted-foreground hover:bg-secondary-dark gap-x-4 active:bg-secondary border border-secondary-dark mt-7' onClick={() => { }}>
-            <Image height={2} width={2} src={GoogleSvg} className='w-5 h-5' alt='google svg' />
-            Login with Google
-        </Button> */}
-
+        <a href="http://localhost:3001/api/google/callback?flow=register" className="w-full">
+          <Button className='w-full bg-secondary text-muted-foreground hover:bg-secondary-dark gap-x-4 active:bg-secondary border border-secondary-dark mt-7' >
+            <Image height={2} width={2} src={SVG.google} className='w-5 h-5' alt='google svg' />
+            Signup with Google
+          </Button>
+        </a>
         <p className='text-sm text-muted-foreground py-5'>{"Already have an account?"} <span className='font-medium underline cursor-pointer hover:text-primary-dark' onClick={() => {
           router.push('/login')
         }}>Login</span></p>

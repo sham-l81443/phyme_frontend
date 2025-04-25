@@ -7,9 +7,9 @@ const Page = ({
     direction = "row",
     className,
 }: {
-  children: React.ReactNode;
-  direction?: "row" | "column";
-  className?: string;
+    children: React.ReactNode;
+    direction?: "row" | "column";
+    className?: string;
 }) => {
     return (
         <div
@@ -24,4 +24,4 @@ const Page = ({
     );
 };
 
-export  {Page};
+export { Page };

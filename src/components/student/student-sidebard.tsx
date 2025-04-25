@@ -20,6 +20,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar"
 import useStudentStore from "@/store/student/studentStore"
 import { STUDENT_STORE_KEY } from "@/store/store-key"
+import LOGO from "@/assets/svg/logo.svg"
+
+import Image from "next/image"
 
 // This is sample data for the sidebar navigation
 const navigationItems = [
@@ -46,10 +49,12 @@ export default function StudentSideBar({ ...props }: React.ComponentProps<typeof
     const studentInfo = useStudentStore(state => state.studentStore.persist?.[STUDENT_STORE_KEY.STUDENT_DATA])
 
     return (
-        <Sidebar {...props}>
-            <SidebarHeader className=" h-12 p-0">
-                <div className="flex items-center gap-2 px-4 h-full justify-between">
-                    <span className="text-lg font-semibold">Company</span>
+        <Sidebar className="border-none rounded-none " {...props}>
+            <SidebarHeader className="app-banner h-14 p-0 bg-cover  ">
+                <div className="flex items-center px-4 h-full justify-start  ">
+                    <span className="text-lg font-semibold">
+                        <Image src={LOGO} alt="logo" className="w-40"></Image>
+                    </span>
                 </div>
 
             </SidebarHeader>
@@ -62,8 +67,8 @@ export default function StudentSideBar({ ...props }: React.ComponentProps<typeof
                                 item.isActive = pathname.includes(item.href)
                                 return (
                                     <SidebarMenuItem key={item.title}>
-                                        <SidebarMenuButton asChild isActive={item.isActive} tooltip={item.title}>
-                                            <Link href={item.href} prefetch className="flex items-center gap-2">
+                                        <SidebarMenuButton asChild isActive={item.isActive} tooltip={item.title} className="rounded-lg py-4 ">
+                                            <Link href={item.href} prefetch={true} className="flex items-center gap-2">
                                                 <item.icon className="h-4 w-4" />
                                                 <span>{item.title}</span>
                                             </Link>
@@ -76,14 +81,14 @@ export default function StudentSideBar({ ...props }: React.ComponentProps<typeof
                 </SidebarGroup>
             </SidebarContent>
             {/* <SidebarRail /> */}
-            <SidebarFooter className="p4 shadow">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <button className="flex w-full items-center gap-3 rounded-md p-2 text-left hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+            <SidebarFooter className="p4 shadow border-t">
+                <DropdownMenu >
+                    <DropdownMenuTrigger className="bg-background rounded-md" asChild>
+                        <button className="flex w-full items-center gap-3 rounded-xl p-2 text-left hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
                             <Avatar className="h-10 w-10 border border-sidebar-border rounded-full center">
                                 <AvatarImage src={"/placeholder.svg"} alt={studentInfo?.name} />
-                                <AvatarFallback className="bg-sidebar-accent text-sidebar-accent-foreground">
-                                    {studentInfo?.name[0] + studentInfo?.name[1]}
+                                <AvatarFallback className="text-sidebar-accent-foreground">
+                                    {studentInfo?.name?.[0] + studentInfo?.name?.[1] || ''}
                                 </AvatarFallback>
                             </Avatar>
                             <div className="flex-1 overflow-hidden">

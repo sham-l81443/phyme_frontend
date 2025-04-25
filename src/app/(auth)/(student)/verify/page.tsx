@@ -10,11 +10,12 @@ import z from "zod"
 // import GoogleSvg from "@/assets/svg/google.svg"
 import { Scroll, Section } from "@/components/common"
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem,FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input";
 import { verifyUSer } from "@/services/student/auth"
-import {  IVerifyFormValues, verifyAccountSchema } from "@/lib/validations"
+import { IVerifyFormValues, verifyAccountSchema } from "@/lib/validations"
 import { showError, showSuccess } from "@/lib/toast"
+import { STUDENT_ROUTES } from "@/constants/routes"
 
 
 
@@ -45,7 +46,7 @@ const Login = () => {
         retry: 1,
         onSuccess: (data) => {
             showSuccess('Account verified successfully')
-            router.replace("/student/home")
+            router.replace(STUDENT_ROUTES.dashboard)
         },
         onError: (error) => {
             showError(error?.message)

@@ -1,27 +1,23 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
-import { useQuery } from "@tanstack/react-query";
+
+import { Scroll, Section, VideoCard } from "@/components/common";
+// eslint-disable-next-line import/order
+import { CardContent } from "@/components/ui/card";
 
 // import VideoCardSkeleton from "@/components/global/video-components/video-card-skeleton";
-import { Scroll, Section } from "@/components/common";
 import { getLivevideos } from "@/services/student";
 import { IVideo } from "@/types/common";
-import { VideoCard } from "@/components/common";
+import SkeletonVideoCard from "@/components/common/skeleton/video-card-skeleton";
 
 
 
 const TutionVideoList = () => {
 
 
-    const router = useRouter();
-
-    function onCreateClick() {
-        router.push("/admin/tution/create");
-    }
+    // const router = useRouter();
 
 
     const { data: videos, isPending } = useQuery({ queryKey: ['live-videos'], queryFn: getLivevideos })
@@ -30,16 +26,16 @@ const TutionVideoList = () => {
 
 
     return (
-        <Section>
+        <Section className="">
 
-            <Scroll>
+            <Scroll className="bg-white rounded-sm">
                 {isPending ? (
 
                     <CardContent className="flex-1 min-h-full max-h-full overflow-auto grid grid-cols-1 md:grid-cols-4 gap-4 p-4 ">
                         {
                             Array?.from({ length: 8 }).map((_, index) => {
                                 return (
-                                    <div key={index}></div>
+                                    <SkeletonVideoCard key={index}></SkeletonVideoCard>
                                 )
                             })
                         }

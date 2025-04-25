@@ -1,0 +1,15 @@
+what do i want in profile completion alert 
+
+1 : Name 
+
+2 : age  (thinking)
+
+3 : class 
+
+4 : syllabus 
+
+
+
+consider : 
+
+check is isprifle completed in login too

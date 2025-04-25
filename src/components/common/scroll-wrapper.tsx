@@ -10,15 +10,15 @@ const Scroll = ({
     className,
     loading = false,
 }: {
-  children: React.ReactNode;
-  direction?: "row" | "column";
-  className?: string;
-  loading?:boolean
+    children: React.ReactNode;
+    direction?: "row" | "column";
+    className?: string;
+    loading?: boolean
 }) => {
     return (
         <section
             className={cn(
-                "flex-1 h-full overflow-auto ",
+                "flex-1 h-full overflow-auto bg-white",
                 direction === "row" ? "flex-row" : "flex-col",
                 className && className,
             )}
@@ -30,4 +30,4 @@ const Scroll = ({
     );
 };
 
-export { Scroll};
+export { Scroll };

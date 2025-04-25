@@ -22,9 +22,14 @@ axiosInstance.interceptors.response.use(
             const message = data?.message || "Something went wrong";
 
             const apiEndpoint = config?.url;
-            logger.info(apiEndpoint);
+            logger.info(apiEndpoint, 'apiEndpoint');
 
-            if (status === 401) {
+            if (
+                status === 401 &&
+                !apiEndpoint.includes('/login') &&
+                !apiEndpoint.includes('/admin/login') &&
+                !apiEndpoint.includes('/register')
+            ) {
                 setStudentDataById(STUDENT_STORE_KEY.IS_STUDENT_LOGGED_IN, false, 'persist')
                 window.location.href = "/login";
             }

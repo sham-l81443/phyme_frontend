@@ -4,8 +4,6 @@ import { useMutation } from "@tanstack/react-query"
 // import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { toast } from "react-toastify"
-import z from "zod"
 
 // import GoogleSvg from "@/assets/svg/google.svg"
 import { Scroll, Section } from "@/components/common"
@@ -17,16 +15,28 @@ import { ILogInFormValues, loginSchema } from "@/lib/validations"
 import { STUDENT_ROUTES } from "@/constants/routes"
 import { setStudentDataById } from "@/store/student/studentStore"
 import { STUDENT_STORE_KEY } from "@/store/store-key"
-
-
-
+import { SVG } from "@/assets/svg"
+import Image from "next/image"
+import { showError, showSuccess } from "@/lib/toast"
+import { useEffect, useState } from "react"
+import Cookies from "js-cookie"
 
 
 
 
 const Login = () => {
 
+    useEffect(() => {
+        const ssoError = Cookies.get('sso-error');
+        if (ssoError) {
+            showError(ssoError)
+            Cookies.remove('sso-error');
+        }
+    }, [])
+
     const router = useRouter()
+
+    const [isSsoLoading, setIsSsoLoading] = useState(false)
 
     const form = useForm<ILogInFormValues>({
         defaultValues: {
@@ -36,6 +46,20 @@ const Login = () => {
         resolver: zodResolver(loginSchema),
     })
 
+
+
+    const handleGoogleLogin = () => {
+        setIsSsoLoading(true)
+        try {
+
+            router.push(`http://localhost:3001/api/google/callback`)
+
+        } catch (error) {
+            showError('Something went wrong')
+        }
+
+
+    }
 
     const onSubmit = (formData: ILogInFormValues) => {
         console.log(formData)
@@ -48,18 +72,8 @@ const Login = () => {
         mutationFn: loginStudent,
         mutationKey: ["loginUser"],
         onSuccess: (data) => {
-            console.log(data)
-            toast.success("Login succesful", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            })
 
+            showSuccess("Login succesful")
             setStudentDataById(STUDENT_STORE_KEY.IS_STUDENT_LOGGED_IN, true, 'persist')
             setStudentDataById(STUDENT_STORE_KEY.IS_PREMIUM_STUDENT, data?.data?.userType || 'Free', 'persist')
             setStudentDataById(STUDENT_STORE_KEY.STUDENT_DATA, data?.data || null, 'persist')
@@ -69,16 +83,7 @@ const Login = () => {
         onError: (error: Error) => {
             console.log(error)
 
-            toast.error(error?.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            })
+            showError(error?.message || "Something went wrong")
 
         },
 
@@ -88,7 +93,7 @@ const Login = () => {
 
 
     return (
-        <Section loading={isPending} className="center">
+        <Section loading={isPending || isSsoLoading} className="center">
             <Scroll direction="column" className="center min-h-screen px-4 sm:px-6 md:px-10 max-w-[30rem] ">
                 <div className='self-start flex-col flex w-max mb-6'>
                     <p className='text-3xl font-bold text-gray-600 self-start'>LOGIN </p>
@@ -126,16 +131,17 @@ const Login = () => {
 
                     </form>
                 </Form>
-                {/* <div className='flex items-center gap-2 w-full mt-7'>
+                <div className='flex items-center gap-2 w-full mt-7'>
                     <p className='h-[2px] flex-1 bg-zinc-200 rounded-sm'></p>
                     <p className='text-muted-foreground text-xs'> Or Login with Google</p>
                     <p className='h-[2px] flex-1 bg-zinc-200 rounded-sm'></p>
                 </div>
-                <Button className='w-full bg-secondary text-muted-foreground hover:bg-secondary-dark gap-x-4 active:bg-secondary border border-secondary-dark mt-7' onClick={() => { }}>
-                    <Image height={2} width={2} src={GoogleSvg} className='w-5 h-5' alt='google svg' />
-                    Login with Google
-                </Button> */}
-
+                <a href="http://localhost:3001/api/google/callback?flow=login" className="w-full">
+                    <Button className='w-full bg-secondary text-muted-foreground hover:bg-secondary-dark gap-x-4 active:bg-secondary border border-secondary-dark mt-7' onClick={handleGoogleLogin}>
+                        <Image width={20} height={20} src={SVG.google} className='w-5 h-5' alt='google svg' />
+                        Login with Google
+                    </Button>
+                </a>
                 <p className='text-sm text-muted-foreground py-5'>{"Don't have an account?"} <span className='font-medium underline cursor-pointer hover:text-primary-dark' onClick={() => {
                     router.push("/signup")
                 }}>Signup</span></p>
