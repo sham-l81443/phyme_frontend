@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { STUDENT_ROUTES } from "@/constants/routes";
-import { useDevtoolsDetect } from "@/hooks/useDevtoolProtect";
 
 const ContentProtection: React.FC<{
     children: React.ReactNode,
