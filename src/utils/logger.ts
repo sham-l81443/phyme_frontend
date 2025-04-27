@@ -67,38 +67,38 @@ class Logger {
         const formattedMessage = formatMessage(level, message);
 
         // Apply appropriate logging method with styling in browser environments
-        if (typeof window !== "undefined" && window.console) {
-            switch (level) {
-            case "debug":
-                console.debug(`%c${formattedMessage}`, `color: ${LOG_COLORS.debug}`, ...data);
-                break;
-            case "info":
-                console.info(`%c${formattedMessage}`, `color: ${LOG_COLORS.info}`, ...data);
-                break;
-            case "warn":
-                console.warn(`%c${formattedMessage}`, `color: ${LOG_COLORS.warn}`, ...data);
-                break;
-            case "error":
-                console.error(`%c${formattedMessage}`, `color: ${LOG_COLORS.error}`, ...data);
-                break;
-            }
-        } else {
-            // For non-browser environments (Node.js)
-            switch (level) {
-            case "debug":
-                console.debug(formattedMessage, ...data);
-                break;
-            case "info":
-                console.info(formattedMessage, ...data);
-                break;
-            case "warn":
-                console.warn(formattedMessage, ...data);
-                break;
-            case "error":
-                console.error(formattedMessage, ...data);
-                break;
-            }
-        }
+        // if (typeof window !== "undefined" && window.console) {
+        //     switch (level) {
+        //     case "debug":
+        //         console.debug(`%c${formattedMessage}`, `color: ${LOG_COLORS.debug}`, ...data);
+        //         break;
+        //     case "info":
+        //         console.info(`%c${formattedMessage}`, `color: ${LOG_COLORS.info}`, ...data);
+        //         break;
+        //     case "warn":
+        //         console.warn(`%c${formattedMessage}`, `color: ${LOG_COLORS.warn}`, ...data);
+        //         break;
+        //     case "error":
+        //         console.error(`%c${formattedMessage}`, `color: ${LOG_COLORS.error}`, ...data);
+        //         break;
+        //     }
+        // } else {
+        //     // For non-browser environments (Node.js)
+        //     switch (level) {
+        //     case "debug":
+        //         console.debug(formattedMessage, ...data);
+        //         break;
+        //     case "info":
+        //         console.info(formattedMessage, ...data);
+        //         break;
+        //     case "warn":
+        //         console.warn(formattedMessage, ...data);
+        //         break;
+        //     case "error":
+        //         console.error(formattedMessage, ...data);
+        //         break;
+        //     }
+        // }
     }
 
     /**

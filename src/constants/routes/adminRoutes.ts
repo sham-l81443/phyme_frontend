@@ -8,5 +8,6 @@ export const ADMIN_ROUTES = {
     chapter: '/admin/config/chapter',
     note: '/admin/config/note',
     settings: '/admin/config/setting',
-    videos:'/admin/videos'
+    videos:'/admin/videos',
+    createVideo: '/admin/videos/create'
 }

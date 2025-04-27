@@ -28,7 +28,8 @@ axiosInstance.interceptors.response.use(
                 status === 401 &&
                 !apiEndpoint.includes('/login') &&
                 !apiEndpoint.includes('/admin/login') &&
-                !apiEndpoint.includes('/register')
+                !apiEndpoint.includes('/register') && 
+                window.location.pathname !== '/login'
             ) {
                 setStudentDataById(STUDENT_STORE_KEY.IS_STUDENT_LOGGED_IN, false, 'persist')
                 window.location.href = "/login";

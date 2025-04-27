@@ -6,15 +6,23 @@ import ProfileCompletionAlertDialog from './profile-completion-alert-dialog'
 import ParentConsentAlertDialog from './parent-consent-alert-dialog'
 import { DefaultPageLoader } from '../common'
 
+interface StudentDetails {
+    data: {
+        isProfileComplete: boolean
+        isUnderAged: boolean
+        isParentConsent: boolean
+    }
+}
+
 const ProfileAlertDialog = () => {
 
-    const { data: studentDetails, isFetching: isStudentDetailsFetching } = useQuery({
+    const { data: studentDetails, isFetching: isStudentDetailsFetching } = useQuery<StudentDetails>({
         queryKey: ['student-details'],
         queryFn: getMyDetails,
         staleTime: 1000 * 60 * 60 * 24,
+        refetchOnMount: false
     })
-
-
+        
     if(isStudentDetailsFetching) return <DefaultPageLoader/>
 
     if(!studentDetails?.data?.isProfileComplete) return <ProfileCompletionAlertDialog />

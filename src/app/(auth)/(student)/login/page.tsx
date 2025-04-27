@@ -1,12 +1,12 @@
 "use client"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 // import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 
 // import GoogleSvg from "@/assets/svg/google.svg"
-import { Scroll, Section } from "@/components/common"
+import { DefaultPageLoader, Scroll, Section } from "@/components/common"
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input";
@@ -20,23 +20,23 @@ import Image from "next/image"
 import { showError, showSuccess } from "@/lib/toast"
 import { useEffect, useState } from "react"
 import Cookies from "js-cookie"
+import { getMyDetails } from "@/services/student/my-details"
 
 
 
 
 const Login = () => {
-
-    useEffect(() => {
-        const ssoError = Cookies.get('sso-error');
-        if (ssoError) {
-            showError(ssoError)
-            Cookies.remove('sso-error');
-        }
-    }, [])
-
     const router = useRouter()
-
     const [isSsoLoading, setIsSsoLoading] = useState(false)
+
+    // Initialize all hooks first
+    const { data: studentDetails, isFetching: isStudentDetailsFetching } = useQuery({
+        queryKey: ['student-details'],
+        queryFn: getMyDetails,
+        staleTime: 1000 * 60 * 60 * 24,
+        refetchOnMount: false,
+        enabled: Cookies.get('s_l_i') === 'true'
+    })
 
     const form = useForm<ILogInFormValues>({
         defaultValues: {
@@ -46,52 +46,54 @@ const Login = () => {
         resolver: zodResolver(loginSchema),
     })
 
-
-
-    const handleGoogleLogin = () => {
-        setIsSsoLoading(true)
-        try {
-
-            router.push(`http://localhost:3001/api/google/callback`)
-
-        } catch (error) {
-            showError('Something went wrong')
-        }
-
-
-    }
-
-    const onSubmit = (formData: ILogInFormValues) => {
-        console.log(formData)
-        // router.push("/")
-        mutation.mutate(formData)
-    }
-
-
     const mutation = useMutation({
         mutationFn: loginStudent,
         mutationKey: ["loginUser"],
         onSuccess: (data) => {
-
             showSuccess("Login succesful")
             setStudentDataById(STUDENT_STORE_KEY.IS_STUDENT_LOGGED_IN, true, 'persist')
             setStudentDataById(STUDENT_STORE_KEY.IS_PREMIUM_STUDENT, data?.data?.userType || 'Free', 'persist')
             setStudentDataById(STUDENT_STORE_KEY.STUDENT_DATA, data?.data || null, 'persist')
-
             router.push(STUDENT_ROUTES.dashboard)
         },
         onError: (error: Error) => {
             console.log(error)
-
             showError(error?.message || "Something went wrong")
-
         },
-
     })
+
+    useEffect(() => {
+        const ssoError = Cookies.get('sso-error');
+        if (ssoError) {
+            showError(ssoError)
+            Cookies.remove('sso-error');
+        }
+    }, [])
+
+    const handleGoogleLogin = (e: React.MouseEvent) => {
+        e.preventDefault()
+        setIsSsoLoading(true)
+        window.location.href = 'http://localhost:3001/api/google/callback?flow=login'
+    }
+
+    const onSubmit = (formData: ILogInFormValues) => {
+        console.log(formData)
+        mutation.mutate(formData)
+    }
 
     const { isPending } = mutation
 
+    // Handle loading and redirects after all hooks
+    useEffect(() => {
+        if (studentDetails?.success) {
+            router.push(STUDENT_ROUTES.dashboard)
+        }
+    }, [studentDetails?.success, router])
 
+    if (isStudentDetailsFetching) {
+        return <DefaultPageLoader/>
+    }
+    
     return (
         <Section loading={isPending || isSsoLoading} className="center">
             <Scroll direction="column" className="center min-h-screen px-4 sm:px-6 md:px-10 max-w-[30rem] ">

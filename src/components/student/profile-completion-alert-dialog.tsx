@@ -36,11 +36,11 @@ const ProfileCompletionAlertDialog = () => {
 
 
 
-    const { data: classList, isPending: isClassFetchingLoading } = useQuery({
-        queryKey: ['class-list'],
-        queryFn: getClassList,
-        enabled: studentDetails?.data?.isProfileComplete
-    })
+        const { data: classList, isPending: isClassFetchingLoading } = useQuery({
+            queryKey: ['class-list'],
+            queryFn: getClassList,
+            enabled: studentDetails?.data?.isProfileComplete
+        })
 
 
     const { data: syllabusList, isPending: isSyllabusFetchingLoading } = useQuery({
