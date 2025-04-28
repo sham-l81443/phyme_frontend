@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image"
 import {
   GraduationCap,
@@ -25,10 +26,11 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel"
-import { APP_1, APP_2, APP_3, APP_4, HERO_1 } from "@/assets/png"
+import { APP_1, APP_2, APP_3, APP_4, girl3d, group3d, HERO_1, teacher3d } from "@/assets/png"
 import { Input } from "@/components/ui/input"
 import { FaqAccordion } from "@/components/common/faq-accordion"
 import { ExpertProfile } from "@/components/ui/expert-profile"
+import { useRef, useEffect } from "react"
 
 
 const faqs = [
@@ -82,6 +84,21 @@ const faqs = [
   },
 ]
 export default function Home() {
+
+  const emblaRef = useRef(null);
+
+  useEffect(() => {
+    const embla = emblaRef.current?.emblaApi;
+
+    if (embla) {
+      const autoplay = setInterval(() => {
+        embla.scrollNext(); // Scroll to the next slide
+      }, 3000); // Change every 3 seconds
+
+      return () => clearInterval(autoplay); // Clear the interval when the component is unmounted
+    }
+  }, []);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
       {/* Hero Section */}
@@ -139,22 +156,22 @@ export default function Home() {
               </div>
 
               <div className="relative flex items-center justify-center">
-                <div className="absolute -inset-4 rounded-xl bg-gradient-to-r from-rose-500/20 to-purple-600/20 blur-xl" />
+                <div className="absolute -inset-4 rounded-xl bg-gradient-to-r from-rose-500/20 to-purple-600/20 blur-2xl" />
 
                 {/* Carousel replacing the static image */}
-                <div className="relative w-full max-w-md overflow-hidden rounded-xl shadow-2xl">
-                  <Carousel className="w-full" opts={{ loop: true, duration: 50 }}>
-                    <CarouselContent>
-                      <CarouselItem>
-                        <div className="relative aspect-square overflow-hidden rounded-xl">
+                <div className="relative w-full max-w-md rounded-xl ">
+                  <Carousel ref={emblaRef} className="w-full" opts={{ loop: true, duration: 1 }}>
+                    <CarouselContent className="shadow-none border-none ">
+                      <CarouselItem className="bg-transparent shadow-none">
+                        <div className="relative aspect-square  rounded-xl">
                           <Image
-                            src={APP_4}
+                            src={girl3d}
                             alt="Students collaborating on a project"
                             fill
                             className="object-cover"
                             priority
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                          {/* <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" /> */}
                           <div className="absolute bottom-4 left-4 right-4">
                             <h3 className="text-xl font-bold text-white">Collaborative Learning</h3>
                             <p className="text-sm text-white/80">Work together to solve real-world problems</p>
@@ -164,13 +181,13 @@ export default function Home() {
                       <CarouselItem>
                         <div className="relative aspect-square overflow-hidden rounded-xl">
                           <Image
-                            src={APP_2}
+                            src={group3d}
                             alt="Group study session"
                             fill
                             className="object-cover"
                             priority
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                          {/* <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" /> */}
                           <div className="absolute bottom-4 left-4 right-4">
                             <h3 className="text-xl font-bold text-white">Group Study Sessions</h3>
                             <p className="text-sm text-white/80">Learn faster with peer support</p>
@@ -180,29 +197,29 @@ export default function Home() {
                       <CarouselItem>
                         <div className="relative aspect-square overflow-hidden rounded-xl">
                           <Image
-                            src={APP_3}
+                            src={girl3d}
                             alt="Modern workspace for learning"
                             fill
                             className="object-cover"
                             priority
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                          <div className="absolute bottom-4 left-4 right-4">
-                            <h3 className="text-xl font-bold text-white">Modern Workspaces</h3>
-                            <p className="text-sm text-white/80">Designed for productivity and focus</p>
+                          {/* <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" /> */}
+                          <div className="absolute bottom-0 left-0 right-0 backdrop-blur-2xl p-2 px-4 backdrop-opacity-80 rounded-xl">
+                            <h3 className="text-xl font-bold block bg-gradient-to-r from-gray-100 to-purple-600 bg-clip-text text-transparent">Modern Workspaces</h3>
+                            <p className="text-sm text-white/80 block bg-gradient-to-r from-gray-100 to-purple-600 bg-clip-text text-transparent">Designed for productivity and focus</p>
                           </div>
                         </div>
                       </CarouselItem>
                       <CarouselItem>
                         <div className="relative aspect-square overflow-hidden rounded-xl">
                           <Image
-                            src={APP_1}
+                            src={teacher3d}
                             alt="Student studying with laptop"
                             fill
                             className="object-cover"
                             priority
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                          {/* <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" /> */}
                           <div className="absolute bottom-4 left-4 right-4">
                             <h3 className="text-xl font-bold text-white">Flexible Learning</h3>
                             <p className="text-sm text-white/80">Study anytime, anywhere at your own pace</p>
@@ -210,17 +227,17 @@ export default function Home() {
                         </div>
                       </CarouselItem>
                     </CarouselContent>
-                    <CarouselPrevious className="left-3 h-9 w-9 bg-white/80 hover:bg-white" />
-                    <CarouselNext className="right-3 h-9 w-9 bg-white/80 hover:bg-white" />
+                    {/* <CarouselPrevious className="left-3 h-9 w-9 bg-white/80 hover:bg-white" /> */}
+                    {/* <CarouselNext className="right-3 h-9 w-9 bg-white/80 hover:bg-white" /> */}
                   </Carousel>
 
                   {/* Stats card */}
-                  <div className="absolute -bottom-5 -right-5 rounded-lg bg-white/90 p-4 shadow-lg backdrop-blur-sm sm:bottom-5 sm:right-5 z-10">
+                  {/* <div className="absolute -bottom-5 -right-5 rounded-lg bg-white/90 p-4 shadow-lg backdrop-blur-sm sm:bottom-5 sm:right-5 z-10">
                     <div className="flex flex-col items-center justify-center space-y-1 text-center">
                       <span className="text-2xl font-bold text-gray-900">97%</span>
                       <span className="text-xs text-gray-600">Completion Rate</span>
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* Floating elements for visual interest */}
                   <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-rose-400/30 blur-xl" />
@@ -293,7 +310,7 @@ export default function Home() {
                 "Published researcher with 20+ peer-reviewed papers",
                 "Specialized in making complex algorithms accessible to beginners",
               ]}
-              imageSrc="/images/learning-1.jpg"
+              imageSrc={teacher3d}
               color="rose"
             />
 

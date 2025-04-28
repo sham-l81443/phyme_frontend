@@ -1,12 +1,12 @@
 import { Check } from "lucide-react"
-import Image from "next/image"
+import Image, { StaticImageData } from "next/image"
 
 interface ExpertProfileProps {
     name: string
     title: string
     description: string
     qualifications: string[]
-    imageSrc: string
+    imageSrc: StaticImageData
     specialty: string
     color: "rose" | "fuchsia" | "purple"
 }
