@@ -1,4 +1,3 @@
-"use client"
 import Image from "next/image"
 import {
   GraduationCap,
@@ -25,12 +24,11 @@ import {
   Search
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel"
-import { APP_1, APP_2, APP_3, APP_4, girl3d, group3d, HERO_1, teacher3d } from "@/assets/png"
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel"
+import { APP_2, APP_3, APP_4, girl3d, group3d, teacher3d } from "@/assets/png"
 import { Input } from "@/components/ui/input"
 import { FaqAccordion } from "@/components/common/faq-accordion"
 import { ExpertProfile } from "@/components/ui/expert-profile"
-import { useRef, useEffect } from "react"
 
 
 const faqs = [
@@ -193,7 +191,7 @@ export default function Home() {
                           {/* <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" /> */}
                           <div className="absolute bottom-0 left-0 right-0 backdrop-blur-2xl p-2 px-4 backdrop-opacity-80 rounded-xl">
                             <h3 className="text-xl font-bold block bg-gradient-to-r from-gray-100 to-purple-600 bg-clip-text text-transparent">Modern Workspaces</h3>
-                            <p className="text-sm text-white/80 block bg-gradient-to-r from-gray-100 to-purple-600 bg-clip-text text-transparent">Designed for productivity and focus</p>
+                            <p className="text-sm  block bg-gradient-to-r from-gray-100 to-purple-600 bg-clip-text text-transparent">Designed for productivity and focus</p>
                           </div>
                         </div>
                       </CarouselItem>
