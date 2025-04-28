@@ -85,20 +85,7 @@ const faqs = [
 ]
 export default function Home() {
 
-  const emblaRef = useRef(null);
-
-  useEffect(() => {
-    const embla = emblaRef.current?.emblaApi;
-
-    if (embla) {
-      const autoplay = setInterval(() => {
-        embla.scrollNext(); // Scroll to the next slide
-      }, 3000); // Change every 3 seconds
-
-      return () => clearInterval(autoplay); // Clear the interval when the component is unmounted
-    }
-  }, []);
-
+ 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
       {/* Hero Section */}
@@ -160,7 +147,7 @@ export default function Home() {
 
                 {/* Carousel replacing the static image */}
                 <div className="relative w-full max-w-md rounded-xl ">
-                  <Carousel ref={emblaRef} className="w-full" opts={{ loop: true, duration: 1 }}>
+                  <Carousel className="w-full" opts={{ loop: true, duration: 1 }}>
                     <CarouselContent className="shadow-none border-none ">
                       <CarouselItem className="bg-transparent shadow-none">
                         <div className="relative aspect-square  rounded-xl">
