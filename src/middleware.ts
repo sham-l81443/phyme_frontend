@@ -12,7 +12,7 @@ export async function middleware(request: NextRequest) {
   // Determine required role based on route
   let requiredRole: string | null = null;
 
-  if (pathname.startsWith('/student')) {
+  if (!pathname.startsWith('/admin')) {
     requiredRole = 'student';
 
   } else if (pathname.startsWith('/admin')) {
@@ -39,5 +39,5 @@ export async function middleware(request: NextRequest) {
 }
 // Apply middleware to student/* and admin/* routes
 export const config = {
-  matcher: ['/student/:path*', '/admin/:path*'],
+  matcher: ['/:path*', '/admin/:path*'],
 }

@@ -3,16 +3,16 @@ import { ILogInFormValues, ISignUpFormValues, IVerifyFormValues } from "@/lib/va
 
 
 export const loginStudent = async (data: Partial<ILogInFormValues>) => {
-    const response = await axiosInstance.post("auth/login", data)
+    const response = await axiosInstance.post("/login", data)
     return response.data
 }
 
 export const signupStudent = async (data: Partial<ISignUpFormValues>) => {
-    const response = await axiosInstance.post("auth/register", data)
+    const response = await axiosInstance.post("/register", data)
     return response.data
 }
 
 export const verifyUSer = async (data: Partial<IVerifyFormValues>) => {
-    const response = await axiosInstance.post("auth/verify", data)
+    const response = await axiosInstance.post("/verify", data)
     return response.data
 }

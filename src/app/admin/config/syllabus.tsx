@@ -36,7 +36,22 @@ const Syllabus = () => {
       </div>
 
       <Scroll className="px-3">
-        ss
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 py-5">
+
+     
+       {
+        syllabusList?.data?.map((syllabus: any) => (
+          <Card key={syllabus.id}>
+            <CardHeader>
+              <CardTitle>{syllabus.name}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p>{syllabus.description}</p>
+            </CardContent>
+          </Card>
+        ))
+       }
+          </div>
       </Scroll>
 
     </>

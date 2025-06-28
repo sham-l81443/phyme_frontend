@@ -11,9 +11,9 @@ export const loginSchema = z.object({
 
 
 export const signupSchema = z.object({
-    name: SCHEMA.name,
+    // name: SCHEMA.name,
     email: SCHEMA.email,
-    phone: SCHEMA.phone,
+    // phone: SCHEMA.phone,
     terms: z.boolean().default(false).refine((value) => value === true, { message: 'Please accept the terms and conditions' }),
     registrationType: SCHEMA.registrationTypeDefault,
 })

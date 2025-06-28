@@ -1,31 +1,45 @@
 "use client"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
-// import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-
-// import GoogleSvg from "@/assets/svg/google.svg"
 import { Scroll, Section } from "@/components/common"
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input";
-import { signupStudent } from "@/services/student/auth"
-import { ISignUpFormValues, signupSchema } from "@/lib/validations"
 import { Checkbox } from '@/components/ui/checkbox'
 import { showError, showSuccess } from "@/lib/toast"
 import logger from "@/utils/logger"
-import { SVG } from "@/assets/svg"
-import Image from "next/image"
 import { useState } from "react"
+import CustomFormFieldInput from "@/components/common/custom-ui/custom-form-field-input"
+import CustomFormFieldSelect from "@/components/common/custom-ui/custom-form-field-select"
+import { EMAIL_SCHEMA, REQUIRED_STRING_SCHEMA } from "@/constants/validation-schema"
+import {z} from 'zod'
+import { apiHandler } from "@/utils/apiHandler"
+import { ISignUpFormValues } from "@/lib/validations"
+import SyllabusSelector from "./_components/syllabus-selector"
+import ClassSelector from "./_components/class-selector"
 const Signup = () => {
+
+
+  const signupSchema = z.object({
+    name:REQUIRED_STRING_SCHEMA,
+    email:EMAIL_SCHEMA,
+    terms:z.boolean().default(false).refine((value) => value === true, { message: 'Please accept the terms and conditions' }),
+    classId:REQUIRED_STRING_SCHEMA,
+    syllabusId:REQUIRED_STRING_SCHEMA
+
+  })
+
+  type IRegisterType = z.infer<typeof signupSchema>
+
 
   const form = useForm({
     defaultValues: {
-
-      email: '',
+      name: undefined,
+      email: undefined,
       terms: false,
-      registrationType: "DEFAULT"
+      classId: undefined,
+      syllabusId: undefined
     },
     resolver: zodResolver(signupSchema)
   })
@@ -48,21 +62,32 @@ const Signup = () => {
   }
 
   const mutation = useMutation({
-    mutationFn: signupStudent,
+
+    mutationFn: (data:IRegisterType)=>apiHandler({method:'POST',url:'/register',body:data}),
+
     onSuccess: () => {
+
       showSuccess("We have sent you an otp to your email, Please verify your email ")
-      router.push('/verify')
+
+      router.push(`/verify?email=${form.getValues('email')}`)
+
     },
     onError: (error) => {
       showError(error.message)
     },
   })
+
   const { isPending } = mutation
 
-  function onSubmit(formData: ISignUpFormValues) {
+  function onSubmit(formData: IRegisterType) {
+
+    console.log(formData,'signup form data')
     logger.info('signup form data', formData)
-    const { name, email, phone } = formData
-    mutation.mutate({ name, email, phone, registrationType: "DEFAULT" })
+
+    const { email, name, terms, classId, syllabusId } = formData
+
+    mutation.mutate({ email, name, terms, classId, syllabusId })
+
   }
 
   return (
@@ -75,42 +100,24 @@ const Signup = () => {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='w-full flex flex-col gap-y-5'>
-            {/* <FormField
-              control={form.control}
-              name='name'
-              render={({ field, fieldState }) => (
-                <FormItem >
-                  <FormControl>
-                    <Input placeholder='Name' {...field}></Input>
-                  </FormControl>
-                  {fieldState.error ? <FormMessage className='text-xs ml-1' /> : <></>}
-                </FormItem>
-              )} /> */}
 
-            <FormField
-              control={form.control}
-              name='email'
-              render={({ field, fieldState }) => (
-                <FormItem >
-                  <FormControl>
-                    <Input placeholder='Email Address' {...field}></Input>
-                  </FormControl>
-                  {fieldState.error ? <FormMessage className='text-xs ml-1' /> : <></>}
-                </FormItem>
-              )} />
+            <CustomFormFieldInput
+              form={form}
+              name="name"
+              placeholder="Name"
+            />
 
-            {/* <FormField
-              control={form.control}
-              name='phone'
-              render={({ field, fieldState }) => (
-                <FormItem >
-                  <FormControl>
-                    <Input placeholder='Phone Number ' {...field}></Input>
-                  </FormControl>
-                  <FormDescription>(optional)</FormDescription>
-                  {fieldState.error ? <FormMessage className='text-xs ml-1' /> : <></>}
-                </FormItem>
-              )} /> */}
+            <CustomFormFieldInput
+              form={form}
+              name="email"
+              placeholder="Email Address"
+            />
+
+           
+
+            <SyllabusSelector form={form} />
+
+            <ClassSelector form={form} />
 
             <FormField
               control={form.control}
@@ -137,11 +144,9 @@ const Signup = () => {
                 </FormItem>
               )} />
             <Button type='submit' className='w-full mt-3 tracking-wider' disabled={isPending}>Signup</Button>
-
-
           </form>
         </Form>
-        <div className='flex items-center gap-2 w-full mt-7'>
+        {/* <div className='flex items-center gap-2 w-full mt-7'>
           <p className='h-[2px] flex-1 bg-zinc-200 rounded-sm'></p>
           <p className='text-muted-foreground text-xs'> Or signup with Google</p>
           <p className='h-[2px] flex-1 bg-zinc-200 rounded-sm'></p>
@@ -151,7 +156,7 @@ const Signup = () => {
             <Image height={2} width={2} src={SVG.google} className='w-5 h-5' alt='google svg' />
             Signup with Google
           </Button>
-        </a>
+        </a> */}
         <p className='text-sm text-muted-foreground py-5'>{"Already have an account?"} <span className='font-medium underline cursor-pointer hover:text-primary-dark' onClick={() => {
           router.push('/login')
         }}>Login</span></p>

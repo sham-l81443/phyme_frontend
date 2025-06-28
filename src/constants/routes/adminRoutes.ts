@@ -4,10 +4,11 @@ export const ADMIN_ROUTES = {
     config: '/admin/config',
     createSyllabus: '/admin/config/syllabus/create',
     createClass: '/admin/config/class/create',
-    subject: '/admin/config/subject',
-    chapter: '/admin/config/chapter',
-    note: '/admin/config/note',
+    createSubject: '/admin/config/subject/create',
+    createChapter: '/admin/config/chapter/create',
+    createNote: '/admin/config/note/create',
     settings: '/admin/config/setting',
     videos:'/admin/videos',
-    createVideo: '/admin/videos/create'
-}
+    createVideo: '/admin/videos/create',
+    syllabus:'/admin/syllabus'
+    }

@@ -35,6 +35,8 @@ import { classSchema, ICreateClass } from "@/lib/validations/class.schema";
 import { createClassService } from "@/services/admin/class";
 import { json } from "stream/consumers";
 import { ISyllabus } from "@/types/common/syllabus";
+import CustomFormFieldInput from "@/components/common/custom-ui/custom-form-field-input";
+import CustomFormFieldSelect from "@/components/common/custom-ui/custom-form-field-select";
 
 
 
@@ -59,6 +61,7 @@ export default function SyllabusForm() {
         mutationFn: createClassService,
         onSuccess: (data) => {
             showSuccess('Class created successfully')
+            form.reset()
         },
         onError: (error: any) => {
             showError(error?.message || "Something went wrong")
@@ -113,102 +116,44 @@ export default function SyllabusForm() {
                             </div>
                             <div className="p-4 grid grid-cols-1 md:grid-cols-2  space-x-10 ">
                                 <div className="space-y-6">
-                                    <FormField
-                                        control={form.control}
+
+                                <CustomFormFieldInput
+                                        form={form}
                                         name="name"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Name</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="Enter syllabus name"
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormDescription>
-                                                    The name of your syllabus.
-                                                </FormDescription>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
+                                        label="Class Name"
+                                        placeholder="Enter name of class"
+                                        description="Name of the class (e.g. Class 1, First Grade)"
                                     />
 
-                                    <FormField
-                                        control={form.control}
+                                    
+
+                                    <CustomFormFieldInput
+                                        form={form}
                                         name="description"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Description <span className="text-primary/60">(optional)</span></FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="Enter syllabus description"
-                                                        {...field}
-                                                        value={field.value || ""}
-                                                    />
-                                                </FormControl>
-                                                <FormDescription>
-                                                    A brief description of the syllabus content.
-                                                    (optional)
-                                                </FormDescription>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
+                                        label="Class Description"
+                                        description="A brief description of the class"
+                                        placeholder="Enter class description"
+                                        optional={true}
+                                        required={false}
                                     />
                                 </div>
                                 <div className="space-y-6 ">
-                                    <FormField
-                                        control={form.control}
+                                    
+                                <CustomFormFieldInput
+                                        form={form}
                                         name="code"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Enter a unique code</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="eg. S1,S2,S3 etc"
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormDescription>
-                                                    Unique code is important to identify the syllabus
-                                                </FormDescription>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
+                                        label="Class Code"
+                                        description="Unique code to identify the class"
+                                        placeholder="eg. C1, C2, C3 etc"
                                     />
 
-                                    <FormField
-                                        control={form.control}
+                                <CustomFormFieldSelect
                                         name="syllabusId"
-                                        render={({ field }) => (
-                                            <FormItem >
-                                                <FormLabel>Choose a syllabus<span className="text-red-500">*</span></FormLabel>
-                                                <Select
-                                                    onValueChange={field.onChange}
-                                                    defaultValue={field.value}
-
-                                                >
-                                                    <FormControl className="w-full">
-                                                        <SelectTrigger>
-                                                            <SelectValue placeholder="Select syllabus" />
-                                                        </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent>
-                                                        {
-                                                            syllabusList?.data?.map((item: ISyllabus) => {
-                                                                return (
-                                                                    <SelectItem value={JSON.stringify(item?.id)}>{item?.name}</SelectItem>
-
-                                                                )
-                                                            })
-                                                        }
-                                                    </SelectContent>
-                                                </Select>
-                                                <FormDescription>
-                                                    Class comes under a syllabus, so choose one
-                                                </FormDescription>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
+                                        form={form}
+                                        label="Syllabus"
+                                        description="Select the syllabus this class belongs to"
+                                        placeholder="Select syllabus"
+                                        options={syllabusList?.data || []}
                                     />
                                 </div>
                             </div>

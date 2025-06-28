@@ -1,5 +1,5 @@
 import { Page } from '@/components/common'
-import MainContent from '@/components/student/main-content'
+import MainContent from '@/components/layout/main-content'
 import React from 'react'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {

@@ -19,7 +19,7 @@ const Section = ({
     return (
         <section
             className={cn(
-                "h-full overflow-hidden flex flex-1 ",
+                "h-full overflow-hidden flex flex-1 bg-background",
                 direction === "row" ? "flex-row" : "flex-col",
                 className && className,
             )}

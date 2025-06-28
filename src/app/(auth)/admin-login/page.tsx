@@ -15,6 +15,7 @@ import { STUDENT_STORE_KEY } from "@/store/store-key"
 
 import { showError, showSuccess } from "@/lib/toast"
 import { loginAdmin } from "@/services/admin/auth"
+import CustomFormFieldInput from "@/components/common/custom-ui/custom-form-field-input"
 
 
 
@@ -35,6 +36,7 @@ const Login = () => {
 
 
     const onSubmit = (formData: ILogInFormValues) => {
+        console.log(formData)
         mutation.mutate(formData)
     }
 
@@ -72,18 +74,14 @@ const Login = () => {
                 </div>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className='w-full flex flex-col gap-y-4'>
-                        <FormField
-                            control={form.control}
-                            name={"email"}
-                            render={({ field, fieldState }) => (
-                                <FormItem >
-                                    <FormLabel></FormLabel>
-                                    <FormControl>
-                                        <Input placeholder='Email Address' {...field}></Input>
-                                    </FormControl>
-                                    {fieldState.error ? <FormMessage className='text-xs ml-1'></FormMessage> : <></>}
-                                </FormItem>
-                            )} />
+                        
+                        <CustomFormFieldInput
+                            form={form}
+                            name="email"
+                            placeholder="Email Address"
+                            type="email"
+                            required
+                        />
 
                         <FormField
                             control={form.control}

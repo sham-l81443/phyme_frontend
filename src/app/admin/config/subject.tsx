@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ADMIN_ROUTES } from "@/constants/routes";
 // import { setNonPersistedDataById } from "@/store/store";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -13,7 +14,7 @@ const Subject = () => {
 
   function onCreateClick() {
     // setNonPersistedDataById({ id: "currentTab", data: { value: "subjects" } });
-    router.push("/admin/subject");
+    router.push(ADMIN_ROUTES.createSubject);
   }
 
   return (

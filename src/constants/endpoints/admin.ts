@@ -6,5 +6,6 @@ export const ADMIN_ENDPOINTS = {
     getClasses: '/class/list',
     getSyllabus: '/syllabus/list',
     getSyllabusById: '/syllabus/getById',
+    createSubject: '/admin/subject/create',
 }
 

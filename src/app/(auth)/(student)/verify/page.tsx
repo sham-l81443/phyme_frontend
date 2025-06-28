@@ -2,7 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
 // import Image from "next/image"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import z from "zod"
@@ -24,6 +24,9 @@ import { STUDENT_ROUTES } from "@/constants/routes"
 
 
 const Login = () => {
+
+    const searchParams = useSearchParams();
+    const email = searchParams.get('email');
 
     const router = useRouter()
 
@@ -56,7 +59,8 @@ const Login = () => {
     const onSubmit = (formData: IVerifyFormValues) => {
         const body = {
             otp: formData.otp,
-            password: formData.password
+            password: formData.password,
+            email
         }
 
         mutation.mutate(body)

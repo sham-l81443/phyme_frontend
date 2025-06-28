@@ -18,7 +18,7 @@ const Scroll = ({
     return (
         <section
             className={cn(
-                "flex-1 h-full overflow-auto bg-white",
+                "flex-1 h-full overflow-auto bg-background",
                 direction === "row" ? "flex-row" : "flex-col",
                 className && className,
             )}
