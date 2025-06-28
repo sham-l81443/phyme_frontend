@@ -13,15 +13,24 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input";
 import { verifyUSer } from "@/services/student/auth"
-import { IVerifyFormValues, verifyAccountSchema } from "@/lib/validations"
+import { IVerifyFormValues } from "@/lib/validations"
 import { showError, showSuccess } from "@/lib/toast"
 import { STUDENT_ROUTES } from "@/constants/routes"
+import { OTP_SCHEMA, PASSWORD_SCHEMA } from "@/constants/validation-schema"
 
 
 
 
 
-
+const verifyAccountSchema = z.object({
+    otp: OTP_SCHEMA,
+    password: PASSWORD_SCHEMA,
+    confirmPassword: PASSWORD_SCHEMA,
+}).refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+})
+    
 
 const Login = () => {
 
