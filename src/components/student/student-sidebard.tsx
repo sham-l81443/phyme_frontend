@@ -42,7 +42,7 @@ import { cn } from "@/lib/utils"
 const items = [
   {
     title:"Subject",
-    url:"/subject",
+    url:"/subjects",
     icon:Book
   }
 ]

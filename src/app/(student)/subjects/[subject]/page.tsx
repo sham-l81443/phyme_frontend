@@ -10,7 +10,8 @@ import { useParams } from 'next/navigation'
 
 const ChaptersPage = () => {
 
-    const {subjetId} = useParams()
+    const {subject} = useParams()
+    console.log(subject)
 
     const terms = [
         {
@@ -183,7 +184,7 @@ const ChaptersPage = () => {
                             {term.chapters.map((chapter) => (
                                 <CustomCard1
                                     key={chapter.id}
-                                    href={`/subject/${subjetId}/chapter/${chapter.id}`}
+                                    href={`/subjects/${subject}/chapter/${chapter.title.split(" ").join("-")}`}
                                     cardClass='border-2 border-secondary'
                                     title={chapter.title}
                                     description={chapter.description}

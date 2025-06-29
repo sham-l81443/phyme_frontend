@@ -39,5 +39,5 @@ export async function middleware(request: NextRequest) {
 }
 // Apply middleware to student/* and admin/* routes
 export const config = {
-  matcher: ['/:path*', '/admin/:path*'],
+  matcher: [ '/admin/:path*'],
 }

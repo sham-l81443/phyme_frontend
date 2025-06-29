@@ -37,7 +37,7 @@ export function TopBar({ title = "Dashboard" }: TopBarProps) {
               <div key={index} className="flex items-center">
                 {index > 0 && <BreadcrumbSeparator />}
                 <BreadcrumbItem>
-                    <BreadcrumbPage className="text-lg capitalize tracking-wider">{crumb}</BreadcrumbPage>
+                    <BreadcrumbPage className="text-lg capitalize tracking-wider ml-2">{crumb?.split("-").join(" ")}</BreadcrumbPage>
                 </BreadcrumbItem>
               </div>
             ))}

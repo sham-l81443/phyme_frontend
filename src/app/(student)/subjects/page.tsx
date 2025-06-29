@@ -1,5 +1,6 @@
 import { Section,Scroll } from '@/components/common'
 import CustomCard1 from '@/components/common/custom-ui/custom-card'
+import { title } from 'process'
 import React from 'react'
 
 // Define a list of color pairs (light & dark mode)
@@ -21,35 +22,35 @@ const SubjectPage = () => {
       title: "Physics",
       description: "Explore the fundamental principles of matter, energy, and their interactions in the physical universe.",
       chapters: 12,
-      href: (id:string)=>`/subject/${id}`
+      href: (id:string)=>`/subjects/${id}`
     },
     {
       id:'2',
       title: "English",
       description: "Master language skills, literature analysis, and effective communication through comprehensive study.",
       chapters: 15,
-      href: (id:string)=>`/subject/${id}`
+      href: (id:string)=>`/subjects/${id}`
     },
     {
       id:'3',
       title: "Mathematics",
       description: "Develop problem-solving skills through algebra, geometry, calculus, and statistical analysis.",
       chapters: 18,
-      href: (id:string)=>`/subject/${id}`
+      href: (id:string)=>`/subjects/${id}`
     },
     {
       id:'4',
       title: "Biology",
       description: "Study living organisms, their structure, function, growth, and evolution in various environments.",
       chapters: 14,
-      href: (id:string)=>`/subject/${id}`
+      href: (id:string)=>`/subjects/${id}`
     },
     {
       id:'5',
       title: "Chemistry",
       description: "Understand the composition, structure, properties, and reactions of matter at molecular level.",
       chapters: 16,
-      href: (id:string)=>`/subject/${id}`
+      href: (title:string)=>`/subjects/${title}`
     }
   ]
 
@@ -61,9 +62,9 @@ const SubjectPage = () => {
             const color = colorPalette[index % colorPalette.length] // Loop through palette
             return (
               <CustomCard1
-              cardClass='!border-1 !border-border'
+                cardClass='!border-1 !border-border'
                 key={index}
-                href={subject.href(subject.id)}
+                href={subject.href(subject.title)}
                 title={subject.title}
                 description={subject.description}
                 footerLabel="Chapters"

@@ -24,7 +24,7 @@ const Signup = () => {
   const signupSchema = z.object({
     name:REQUIRED_STRING_SCHEMA,
     email:EMAIL_SCHEMA,
-    terms:z.boolean().default(false).refine((value) => value === true, { message: 'Please accept the terms and conditions' }),
+    isTermsAccepted:z.boolean().default(false).refine((value) => value === true, { message: 'Please accept the terms and conditions' }),
     classId:REQUIRED_STRING_SCHEMA,
     syllabusId:REQUIRED_STRING_SCHEMA
 
@@ -37,9 +37,10 @@ const Signup = () => {
     defaultValues: {
       name: undefined,
       email: undefined,
-      terms: false,
+      isTermsAccepted: false,
       classId: undefined,
-      syllabusId: undefined
+      syllabusId: undefined,
+      
     },
     resolver: zodResolver(signupSchema)
   })
@@ -84,9 +85,9 @@ const Signup = () => {
     console.log(formData,'signup form data')
     logger.info('signup form data', formData)
 
-    const { email, name, terms, classId, syllabusId } = formData
+    const { email, name, isTermsAccepted, classId, syllabusId } = formData
 
-    mutation.mutate({ email, name, terms, classId, syllabusId })
+    mutation.mutate({ email, name, isTermsAccepted, classId, syllabusId })
 
   }
 
@@ -121,7 +122,7 @@ const Signup = () => {
 
             <FormField
               control={form.control}
-              name="terms"
+              name="isTermsAccepted"
               render={({ field, fieldState }) => (
                 <FormItem className="flex flex-row items-start space-x-2 space-y-0 mt-2 relative">
                   <FormControl>
