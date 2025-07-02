@@ -1,3 +1,4 @@
+
 import { APP_2, APP_4, APP_3 } from "@/assets/png"
 import { Button } from "@/components/ui/button"
 import { Heart, Zap, PieChart, ArrowRight } from "lucide-react"
@@ -71,9 +72,9 @@ const AboutUs = ()=>{
               <div className="inline-flex items-center rounded-full border border-rose-600/20 bg-rose-50 px-3 py-1 text-sm font-medium text-rose-600 shadow-sm mb-6">
                 <span className="mr-1">🏆</span> About Us
               </div>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6 bg-gradient-to-r from-rose-500 to-purple-600 bg-clip-text text-transparent">
                 Transforming Education Since{" "}
-                <span className="bg-gradient-to-r from-rose-500 to-purple-600 bg-clip-text text-transparent">2010</span>
+                <span className="">2010</span>
               </h2>
               <p className="text-lg text-muted-foreground mb-6">
                 We started with a simple mission: make high-quality education accessible to everyone. Today, we've
@@ -86,7 +87,7 @@ const AboutUs = ()=>{
                     <Heart className="h-5 w-5 text-rose-500" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold">Our Mission</h3>
+                    <h3 className="text-lg font-semibold text-gray-700">Our Mission</h3>
                     <p className="text-muted-foreground">
                       To empower individuals worldwide with the skills and knowledge they need to achieve their personal
                       and professional goals.
@@ -99,7 +100,7 @@ const AboutUs = ()=>{
                     <Zap className="h-5 w-5 text-fuchsia-500" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold">Our Vision</h3>
+                    <h3 className="text-lg font-semibold text-gray-700">Our Vision</h3>
                     <p className="text-muted-foreground">
                       A world where anyone, anywhere has the power to transform their life through high-quality learning
                       experiences.
@@ -112,7 +113,7 @@ const AboutUs = ()=>{
                     <PieChart className="h-5 w-5 text-purple-500" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold">Our Values</h3>
+                    <h3 className="text-lg font-semibold text-gray-700">Our Values</h3>
                     <p className="text-muted-foreground">
                       Excellence, innovation, inclusivity, and student success drive everything we do.
                     </p>
@@ -139,7 +140,7 @@ const AboutUs = ()=>{
                 </div>
               </div>
 
-              <Button size="lg" variant="outline" className="border-2">
+              <Button size="lg" variant="outline" className="border-2 border-none bg-gradient-to-r from-rose-500 to-purple-600 hover:from-rose-600 hover:to-purple-700">
                 Learn More About Us
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>

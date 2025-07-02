@@ -26,7 +26,7 @@ const Instructor = ()=>{
             <div className="inline-flex items-center rounded-full border border-rose-600/20 bg-rose-50 px-3 py-1 text-sm font-medium text-rose-600 shadow-sm">
               <span className="mr-1">👩‍🏫</span> Meet Our Experts
             </div>
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl bg-gradient-to-r from-rose-500 to-purple-600 bg-clip-text text-transparent ">
               Learn From{" "}
               <span className="bg-gradient-to-r from-rose-500 to-purple-600 bg-clip-text text-transparent">
                 Industry Leaders

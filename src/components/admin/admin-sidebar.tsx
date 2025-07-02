@@ -39,44 +39,33 @@ import {
 // Menu items
 const items = [
   {
-    title: "Home",
-    url: "/",
+    title: "Dashboard",
+    url: "/admin/dashboard",
     icon: Home,
   },
   {
-    title: "Chapters",
-    url: "/chapters",
-    icon: FileText,
+    title:"Syllabus",
+    url:"/admin/syllabus",
+    icon:FileText
   },
   {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: BarChart3,
+    title:"Class",
+    url:"/admin/class",
+    icon:FileText
   },
   {
-    title: "Users",
-    url: "/users",
-    icon: Users,
+    title:"Subjects",
+    url:"/admin/subjects",
+    icon:FileText
   },
   {
-    title: "Documents",
-    url: "/documents",
-    icon: FileText,
-  },
-  {
-    title: "Settings",
-    url: "/settings",
-    icon: Settings,
-  },
+    title:"Chapters",
+    url:"/admin/chapters",
+    icon:FileText
+  }
 ]
 
-const helpItems = [
-  {
-    title: "Help & Support",
-    url: "/help",
-    icon: HelpCircle,
-  },
-]
+
 
 export function AdminSidebar() {
   const pathname = usePathname()
@@ -112,7 +101,7 @@ export function AdminSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarGroup>
+        {/* <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
               {helpItems.map((item) => (
@@ -127,7 +116,7 @@ export function AdminSidebar() {
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
-        </SidebarGroup>
+        </SidebarGroup> */}
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>

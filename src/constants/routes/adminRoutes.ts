@@ -2,8 +2,8 @@
 export const ADMIN_ROUTES = {
     dashboard: '/admin/dashboard',
     config: '/admin/config',
-    createSyllabus: '/admin/config/syllabus/create',
-    createClass: '/admin/config/class/create',
+    createSyllabus: '/admin/syllabus/create-syllabus',
+    createClass: '/admin/class/create-class',
     createSubject: '/admin/config/subject/create',
     createChapter: '/admin/config/chapter/create',
     createNote: '/admin/config/note/create',

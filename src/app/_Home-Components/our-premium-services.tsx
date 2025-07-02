@@ -1,3 +1,4 @@
+
 import { BookOpen, CheckCircle, Users, Award, Lightbulb, Globe, Code, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 const PremiumService = ()=>{
@@ -8,9 +9,9 @@ const PremiumService = ()=>{
             <div className="inline-flex items-center rounded-full border border-rose-600/20 bg-rose-50 px-3 py-1 text-sm font-medium text-rose-600 shadow-sm">
               <span className="mr-1">✨</span> What We Offer
             </div>
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl bg-gradient-to-r from-rose-500 to-purple-600 bg-clip-text text-transparent ">
               Our{" "}
-              <span className="bg-gradient-to-r from-rose-500 to-purple-600 bg-clip-text text-transparent">
+              <span className="">
                 Premium
               </span>{" "}
               Services
@@ -35,15 +36,15 @@ const PremiumService = ()=>{
                 <ul className="space-y-2">
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-rose-500" />
-                    <span className="text-sm">Self-paced learning</span>
+                    <span className="text-sm text-gray-700">Self-paced learning</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-rose-500" />
-                    <span className="text-sm">HD video content</span>
+                    <span className="text-sm text-gray-700">HD video content</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-rose-500" />
-                    <span className="text-sm">Downloadable resources</span>
+                    <span className="text-sm text-gray-700">Downloadable resources</span>
                   </li>
                 </ul>
               </div>
@@ -63,15 +64,15 @@ const PremiumService = ()=>{
                 <ul className="space-y-2">
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-fuchsia-500" />
-                    <span className="text-sm">Real-time interaction</span>
+                    <span className="text-sm text-gray-700">Real-time interaction</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-fuchsia-500" />
-                    <span className="text-sm">Hands-on exercises</span>
+                    <span className="text-sm text-gray-700">Hands-on exercises</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-fuchsia-500" />
-                    <span className="text-sm">Collaborative projects</span>
+                    <span className="text-sm text-gray-700">Collaborative projects</span>
                   </li>
                 </ul>
               </div>
@@ -91,15 +92,15 @@ const PremiumService = ()=>{
                 <ul className="space-y-2">
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-purple-500" />
-                    <span className="text-sm">Accredited certificates</span>
+                    <span className="text-sm text-gray-700">Accredited certificates</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-purple-500" />
-                    <span className="text-sm">Exam preparation</span>
+                    <span className="text-sm text-gray-700">Exam preparation</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-purple-500" />
-                    <span className="text-sm">Career advancement</span>
+                    <span className="text-sm text-gray-700">Career advancement</span>
                   </li>
                 </ul>
               </div>
@@ -119,15 +120,15 @@ const PremiumService = ()=>{
                 <ul className="space-y-2">
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-rose-500" />
-                    <span className="text-sm">Custom learning plans</span>
+                    <span className="text-sm text-gray-700">Custom learning plans</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-rose-500" />
-                    <span className="text-sm">Regular feedback</span>
+                    <span className="text-sm text-gray-700">Regular feedback</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-rose-500" />
-                    <span className="text-sm">Career coaching</span>
+                    <span className="text-sm text-gray-700">Career coaching</span>
                   </li>
                 </ul>
               </div>
@@ -147,15 +148,15 @@ const PremiumService = ()=>{
                 <ul className="space-y-2">
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-fuchsia-500" />
-                    <span className="text-sm">Discussion forums</span>
+                    <span className="text-sm text-gray-700">Discussion forums</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-fuchsia-500" />
-                    <span className="text-sm">Networking events</span>
+                    <span className="text-sm text-gray-700">Networking events</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-fuchsia-500" />
-                    <span className="text-sm">Study groups</span>
+                    <span className="text-sm text-gray-700">Study groups</span>
                   </li>
                 </ul>
               </div>
@@ -175,15 +176,15 @@ const PremiumService = ()=>{
                 <ul className="space-y-2">
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-purple-500" />
-                    <span className="text-sm">Portfolio building</span>
+                    <span className="text-sm text-gray-700">Portfolio building</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-purple-500" />
-                    <span className="text-sm">Real-world scenarios</span>
+                    <span className="text-sm text-gray-700">Real-world scenarios</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="mr-2 h-4 w-4 text-purple-500" />
-                    <span className="text-sm">Expert review</span>
+                    <span className="text-sm text-gray-700">Expert review</span>
                   </li>
                 </ul>
               </div>

@@ -42,7 +42,7 @@ const HeroSection = () => {
                                     Start Learning Now
                                     <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
-                                <Button size="lg" variant="outline" className="border-2">
+                                <Button size="lg" variant="outline" className="border-2 border-none bg-gradient-to-r from-rose-500 to-purple-600 hover:from-rose-600 hover:to-purple-700">
                                     Explore Courses
                                 </Button>
                             </div>
@@ -50,15 +50,15 @@ const HeroSection = () => {
                             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                                 <div className="flex items-center space-x-2">
                                     <GraduationCap className="h-5 w-5 text-rose-500" />
-                                    <span className="text-sm font-medium">500+ Courses</span>
+                                    <span className="text-sm font-medium text-black">500+ Courses</span>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <BookOpen className="h-5 w-5 text-purple-500" />
-                                    <span className="text-sm font-medium">Expert Instructors</span>
+                                    <span className="text-sm font-medium text-black">Expert Instructors</span>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <Users className="h-5 w-5 text-fuchsia-500" />
-                                    <span className="text-sm font-medium">50K+ Students</span>
+                                    <span className="text-sm font-medium text-black">50K+ Students</span>
                                 </div>
                             </div>
                         </div>
@@ -81,8 +81,8 @@ const HeroSection = () => {
                                                 />
                                                 {/* <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" /> */}
                                                 <div className="absolute bottom-4 left-4 right-4">
-                                                    <h3 className="text-xl font-bold text-white">Collaborative Learning</h3>
-                                                    <p className="text-sm text-white/80">Work together to solve real-world problems</p>
+                                                    <h3 className="text-xl font-bold text-black">Collaborative Learning</h3>
+                                                    <p className="text-sm text-black">Work together to solve real-world problems</p>
                                                 </div>
                                             </div>
                                         </CarouselItem>
