@@ -15,33 +15,39 @@ import { createClassService } from "@/services/admin/class";
 import CreatePageFooter from "@/components/common/custom-ui/create-page-footer";
 import SyllabusSelector from "@/app/(auth)/(student)/signup/_components/syllabus-selector";
 import { CODE_SCHEMA, OPTIONAL_STRING_SCHEMA, REQUIRED_STRING_SCHEMA } from "@/constants/validation-schema";
+import { apiHandler } from "@/utils/apiHandler";
+import ClassSelector, { SubjectSelector, TermSelector } from "@/app/(auth)/(student)/signup/_components/class-selector";
 
 
 
-const classSchema = z.object({
+const subjectSchema = z.object({
     name: REQUIRED_STRING_SCHEMA,
     description: OPTIONAL_STRING_SCHEMA,
     code: CODE_SCHEMA,
-    syllabusId: REQUIRED_STRING_SCHEMA,
+    subjectId: REQUIRED_STRING_SCHEMA,
+    termId: REQUIRED_STRING_SCHEMA
 })
 
-export default function CreateClass() {
+type ICreateSubject = z.infer<typeof subjectSchema>
 
-    const form = useForm<ICreateClass>({
-        resolver: zodResolver(classSchema),
+export default function CreateSubject() {
+
+    const form = useForm<ICreateSubject>({
+        resolver: zodResolver(subjectSchema),
         defaultValues: {
             name: "",
             description: "",
-            syllabusId: "",
+            subjectId: "",
+            termId: "",
             code: "",
         },
     });
 
     const mutation = useMutation({
-        mutationKey: ["createClass"],
-        mutationFn: createClassService,
+        mutationKey: ["createChapter"],
+        mutationFn: (data: ICreateSubject) => apiHandler({ method: "POST", url: "/chapter/create", body: data }),
         onSuccess: (data) => {
-            showSuccess('Class created successfully')
+            showSuccess('Chapter created successfully')
             form.reset()
         },
         onError: (error: any) => {
@@ -50,12 +56,11 @@ export default function CreateClass() {
     })
 
 
-    async function onSubmit(formValues: ICreateClass) {
+    async function onSubmit(formValues: ICreateSubject) {
+
         console.log(formValues);
 
-        const { name, description, code, syllabusId } = formValues
-
-        mutation.mutate({ name, code, description, syllabusId: syllabusId })
+        mutation.mutate(formValues)
 
     }
 
@@ -73,44 +78,49 @@ export default function CreateClass() {
                                 <h1 className="text-2xl font-semibold">Create Class</h1>
                             </div>
                             <div className="p-4 grid grid-cols-1 md:grid-cols-2  space-x-10 ">
-                                <div className="space-y-10">
+                                <div className="space-y-6">
 
                                     <CustomFormFieldInput
                                         form={form}
                                         name="name"
-                                        label="Class Name"
-                                        placeholder="Enter name of class"
-                                        description="Name of the class (e.g. Class 1, First Grade)"
+                                        label="Chapter Name"
+                                        placeholder="Enter name of chapter"
+                                        description="Name of the chapter (e.g. Math, Science)"
                                     />
-
 
 
                                     <CustomFormFieldInput
                                         form={form}
                                         name="description"
-                                        label="Class Description"
-                                        description="A brief description of the class"
-                                        placeholder="Enter class description"
+                                        label="Chapter Description"
+                                        description="A brief description of the chapter"
+                                        placeholder="Enter chapter description"
                                         optional={true}
                                         required={false}
                                     />
+
+                                    <div className="space-y-6">
+                                        <TermSelector name="termId" form={form} label="Select Term This Chapter Belongs To" required={true} />
+                                    </div>
                                 </div>
-                                <div className="space-y-10 ">
+                                <div className="space-y-6 ">
 
                                     <CustomFormFieldInput
                                         form={form}
                                         name="code"
-                                        label="Class Code"
-                                        description="Unique code to identify the class"
-                                        placeholder="eg. C1, C2, C3 etc"
+                                        label="Chapter Code"
+                                        description="Unique code to identify the chapter"
+                                        placeholder="eg. M1, M2, M3 etc"
                                     />
 
-                                    <SyllabusSelector name="syllabusId" form={form} label="Select Syllabus This Class Belongs To" required={true}/>
+                                    <SubjectSelector name="subjectId" form={form} label="Select Subject This Chapter Belongs To" required={true} />
                                 </div>
+
+
 
                             </div>
                         </Scroll>
-                        <CreatePageFooter isPending={isPending}/>
+                        <CreatePageFooter isPending={isPending} />
                     </form>
                 </Form>
             </Section>

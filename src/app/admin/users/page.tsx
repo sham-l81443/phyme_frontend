@@ -12,39 +12,59 @@ import { apiHandler } from "@/utils/apiHandler"
 import { MoreHorizontal, Edit, Trash2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
-interface IClassData {
+interface IUserData {
   id: string
+  email: string
   name: string
-  code: string
-  description: string
-  academicYear: string
-  isActive: boolean
-  syllabus: {
-    name: string
-  }
+  phone: string | null
+  hasAcceptedTerms: boolean
+  role: string
+  isTermsAccepted: boolean
+  classId: string | null
+  isVerified: boolean
+  registrationType: string
+  syllabusId: string | null
   createdAt: string
   updatedAt: string
-  _count: {
-    users: number
-    subjects: number
-    terms: number
+  class: {
+    id: string
+    name: string
+    code: string
+    description?: string
+    isActive: boolean
+    syllabusId: string
+    createdAt: string
+    updatedAt: string
   }
+  syllabus:
+  {
+    id: string,
+    name: string,
+    code: string,
+    isActive: boolean,
+    createdAt: string,
+    updatedAt: string,
+    description?: string
+}
+ 
 }
 
-const Classes = () => {
+const Users = () => {
+
+
 
   const router = useRouter()
 
   function onCreateClick() {
-    router.push(ADMIN_ROUTES.createClass)
+    router.push(ADMIN_ROUTES.createTerm)
   }
 
   const { data, isLoading } = useQuery({
-    queryKey: ['classes'],
-    queryFn: () => apiHandler({ method: 'GET', url: '/class/all' }),
-
+    queryKey: ["users"],
+    queryFn: () => apiHandler({ method: "GET", url: "/users/all" }),
   })
 
+  console.log(data?.data)
 
   const handleEdit = (syllabusId: string) => {
     // Add your edit logic here
@@ -69,7 +89,7 @@ const Classes = () => {
     <Section direction="column" className="p-4">
       <div className=" pb-4 bg-background border-b border-background w-full flex">
         <Button className="ml-auto" onClick={onCreateClick}>
-          Create Class
+          Create Term
         </Button>
       </div>
       <Section direction="column" className=" rounded-sm border border-border">
@@ -77,58 +97,48 @@ const Classes = () => {
           isLoading ? <Main loading={true}></Main> : <Main className="flex-col">
             <Section className="">
               <Table className="">
-                <TableHeader >
+                <TableHeader>
                   <TableRow>
-                    {[
-                      "Name",
-                      "Code",
-                      "Description",
-                      "Syllabus",
-                      "Subjects",
-                      "Users",
-                      "Terms",
-                      "Status",
-                      "Created",
-                      "Actions",
-                    ].map((header) => (
-                      <TableHead key={header} className="py-4 border border-border">{header}</TableHead>
-                    ))}
+                    <TableHead>Name</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Phone</TableHead>
+                    <TableHead>Role</TableHead>
+                    <TableHead>Class</TableHead>
+                    <TableHead>Syllabus</TableHead>
+                    <TableHead>Verified</TableHead>
+                    <TableHead>Created</TableHead>
+                    <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody className="overflow-y-scroll h-full">
                   {
-                    data?.data?.map((syllabus: IClassData) => (
-                      <TableRow key={syllabus.id} className="">
-                        <TableCell className="py-4 border border-border font-medium">{syllabus.name}</TableCell>
-                        <TableCell className="py-4 border border-border">
-                          <Badge variant="outline" className="font-mono">
-                            {syllabus.code}
-                          </Badge>
+                    data?.data?.map((user: IUserData) => (
+                      <TableRow onClick={()=>{router.push(ADMIN_ROUTES.userDetails(user.id))}} key={user.id}>
+                        <TableCell className="font-medium">{user.name}</TableCell>
+                        <TableCell>
+                          {user.email}
                         </TableCell>
-                        <TableCell className="py-4 border border-border max-w-[300px]">
-                          <div className="truncate" title={syllabus.description}>
-                            {syllabus.description}
+                        <TableCell>
+                          {user.phone || "-"}
+                        </TableCell>
+                        <TableCell className="max-w-[300px]">
+                          <div className="truncate" title={user?.role || "-"}>
+                            {user?.role || "-"}
                           </div>
                         </TableCell>
-                        <TableCell className="py-4 border border-border">{syllabus.syllabus.name}</TableCell>
-                        <TableCell className="py-4 border border-border">
-                          <Badge variant="outline">{syllabus._count.subjects}</Badge></TableCell>
-                        <TableCell className="py-4 border border-border">
-                          <Badge variant="outline">{syllabus._count.users}</Badge></TableCell>
-                        <TableCell className="py-4 border border-border">
-                          <Badge variant="outline">{syllabus._count.terms}</Badge></TableCell>
-                        <TableCell className="py-4 border border-border">
-                          <Badge
-                            variant={syllabus.isActive ? "default" : "secondary"}
-                            className={syllabus.isActive ? "bg-green-100 text-green-800 hover:bg-green-100" : ""}
-                          >
-                            {syllabus.isActive ? "Active" : "Inactive"}
-                          </Badge>
+                        <TableCell className="text-start">
+                          <Badge variant="outline">{user?.class?.name || "-"}</Badge>
                         </TableCell>
-                        <TableCell className="text-sm py-4 border border-border text-muted-foreground">
-                          {formatDate(syllabus.createdAt)}
+                        <TableCell className="text-start">
+                          <Badge variant="outline">{user?.syllabus?.name || "-"}</Badge>
                         </TableCell>
-                        <TableCell className="py-4 border border-border">
+                        <TableCell className="text-start text-sm text-muted-foreground">
+                          <Badge variant={user?.isVerified ? "secondary" : "destructive"}>{user?.isVerified ? "Yes" : "No"}</Badge>
+                        </TableCell>
+                        <TableCell className="text-start text-sm text-muted-foreground">
+                          {formatDate(user.updatedAt)}
+                        </TableCell>
+                        <TableCell>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" className="h-8 w-8 p-0">
@@ -137,11 +147,11 @@ const Classes = () => {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => handleEdit(syllabus.id)}>
+                              <DropdownMenuItem onClick={() => handleEdit(user.id)}>
                                 <Edit className="mr-2 h-4 w-4" />
                                 Edit
                               </DropdownMenuItem>
-                              <DropdownMenuItem onClick={() => handleDelete(syllabus.id)} className="text-red-600">
+                              <DropdownMenuItem onClick={() => handleDelete(user.id)} className="text-red-600">
                                 <Trash2 className="mr-2 h-4 w-4" />
                                 Delete
                               </DropdownMenuItem>
@@ -151,7 +161,7 @@ const Classes = () => {
                       </TableRow>
                     ))
                   }
-                </TableBody>
+                </TableBody>  
               </Table>
             </Section>
           </Main>
@@ -162,4 +172,4 @@ const Classes = () => {
   )
 }
 
-export default Classes
+export default Users

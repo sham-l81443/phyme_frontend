@@ -1,3 +1,4 @@
+
 import { FaqAccordion } from "@/components/common/faq-accordion"
 import { faqs } from "./constant"
 import { ArrowRight } from "lucide-react"
@@ -22,7 +23,7 @@ const Faq = () => {
                 Questions
               </span>
             </h2>
-            <p className="max-w-[800px] text-muted-foreground md:text-xl/relaxed">
+            <p className="max-w-[800px] text-gray-700 md:text-xl/relaxed">
               Find answers to common questions about our learning platform, courses, and services
             </p>
           </div>
@@ -41,12 +42,12 @@ const Faq = () => {
           </div>
 
           <div className="mt-16 text-center">
-            <p className="text-muted-foreground mb-6">
+            <p className="text-gray-700 mb-6">
               Still have questions? We're here to help you every step of the way.
             </p>
             <Button
               size="lg"
-              className="bg-gradient-to-r from-rose-500 to-purple-600 hover:from-rose-600 hover:to-purple-700"
+              className="bg-gradient-to-r from-rose-500 to-purple-600 hover:from-rose-600 hover:to-purple-700 text-white"
             >
               Contact Support
               <ArrowRight className="ml-2 h-4 w-4" />

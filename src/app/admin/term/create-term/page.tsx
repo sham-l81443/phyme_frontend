@@ -15,33 +15,38 @@ import { createClassService } from "@/services/admin/class";
 import CreatePageFooter from "@/components/common/custom-ui/create-page-footer";
 import SyllabusSelector from "@/app/(auth)/(student)/signup/_components/syllabus-selector";
 import { CODE_SCHEMA, OPTIONAL_STRING_SCHEMA, REQUIRED_STRING_SCHEMA } from "@/constants/validation-schema";
+import { apiHandler } from "@/utils/apiHandler";
+import ClassSelector from "@/app/(auth)/(student)/signup/_components/class-selector";
 
 
 
-const classSchema = z.object({
+const termSchema = z.object({
     name: REQUIRED_STRING_SCHEMA,
     description: OPTIONAL_STRING_SCHEMA,
     code: CODE_SCHEMA,
-    syllabusId: REQUIRED_STRING_SCHEMA,
+    classId: REQUIRED_STRING_SCHEMA,
 })
 
-export default function CreateClass() {
+export type ITerm = z.infer<typeof termSchema>
 
-    const form = useForm<ICreateClass>({
-        resolver: zodResolver(classSchema),
+export default function CreateTerm() {
+
+    const form = useForm<ITerm>({
+        resolver: zodResolver(termSchema),
         defaultValues: {
             name: "",
             description: "",
-            syllabusId: "",
+            classId: "",
             code: "",
         },
     });
 
     const mutation = useMutation({
-        mutationKey: ["createClass"],
-        mutationFn: createClassService,
+        mutationKey: ["createTerm"],
+        mutationFn:(body:ITerm)=> apiHandler({ method: "POST", url: "/term/create", body }),
         onSuccess: (data) => {
-            showSuccess('Class created successfully')
+            console.log(data)
+            showSuccess('Term created successfully')
             form.reset()
         },
         onError: (error: any) => {
@@ -50,12 +55,12 @@ export default function CreateClass() {
     })
 
 
-    async function onSubmit(formValues: ICreateClass) {
+    async function onSubmit(formValues: ITerm) {
         console.log(formValues);
 
-        const { name, description, code, syllabusId } = formValues
+        const { name, description, code, classId } = formValues
 
-        mutation.mutate({ name, code, description, syllabusId: syllabusId })
+        mutation.mutate({ name, code, description, classId })
 
     }
 
@@ -72,15 +77,15 @@ export default function CreateClass() {
                             <div className="py-4 px-4 bg-accent">
                                 <h1 className="text-2xl font-semibold">Create Class</h1>
                             </div>
-                            <div className="p-4 grid grid-cols-1 md:grid-cols-2  space-x-10 ">
+                            <div className="p-4 grid grid-cols-1 md:grid-cols-2  space-x-12 ">
                                 <div className="space-y-10">
 
                                     <CustomFormFieldInput
                                         form={form}
                                         name="name"
-                                        label="Class Name"
-                                        placeholder="Enter name of class"
-                                        description="Name of the class (e.g. Class 1, First Grade)"
+                                        label="Term Name"
+                                        placeholder="Enter name of term"
+                                        description="Name of the term (e.g. Term 1, Term 2)"
                                     />
 
 
@@ -88,9 +93,9 @@ export default function CreateClass() {
                                     <CustomFormFieldInput
                                         form={form}
                                         name="description"
-                                        label="Class Description"
-                                        description="A brief description of the class"
-                                        placeholder="Enter class description"
+                                        label="Term Description"
+                                        description="A brief description of the term"
+                                        placeholder="Enter term description"
                                         optional={true}
                                         required={false}
                                     />
@@ -100,12 +105,12 @@ export default function CreateClass() {
                                     <CustomFormFieldInput
                                         form={form}
                                         name="code"
-                                        label="Class Code"
-                                        description="Unique code to identify the class"
-                                        placeholder="eg. C1, C2, C3 etc"
+                                        label="Term Code"
+                                        description="Unique code to identify the term"
+                                        placeholder="eg. T1, T2, T3 etc"
                                     />
 
-                                    <SyllabusSelector name="syllabusId" form={form} label="Select Syllabus This Class Belongs To" required={true}/>
+                                    <ClassSelector name="classId" form={form} label="Select Class This Term Belongs To" required={true}/>
                                 </div>
 
                             </div>

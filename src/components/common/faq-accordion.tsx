@@ -71,7 +71,7 @@ export function FaqItem({ question, answer, isOpen, onClick, category }: FaqItem
         className="flex w-full items-center justify-between bg-white p-4 text-left text-lg font-medium transition-all"
         aria-expanded={isOpen}
       >
-        <span>{question}</span>
+        <span className="text-gray-800">{question}</span>
         <div
           className={cn(
             "flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br transition-all",

@@ -5,41 +5,60 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Main, Scroll, Section } from "@/components/common"
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { ADMIN_ROUTES } from "@/constants/routes"
 import { useQuery } from "@tanstack/react-query"
 import { apiHandler } from "@/utils/apiHandler"
 import { MoreHorizontal, Edit, Trash2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
-interface SyllabusData {
-  id: string
-  name: string
-  code: string
-  description: string
-  academicYear: string
-  isActive: boolean
-  createdAt: string
-  updatedAt: string
-  _count: {
-    classes: number
-    users: number
-  }
-}
+type IChapter = {
+    id: string;
+    name: string;
+    code: string;
+    subjectId: string;
+    termId: string;
+    isActive: boolean;
+    description: string;
+    createdAt: string; // ISO date string
+    updatedAt: string; // ISO date string
+    subject: {
+      id: string;
+      name: string;
+      code: string;
+      description: string;
+      classId: string;
+      createdAt: string;
+      updatedAt: string;
+    };
+    term: {
+      id: string;
+      name: string;
+      code: string;
+      description: string;
+      isActive: boolean;
+      classId: string | null;
+      createdAt: string;
+      updatedAt: string;
+    };
+  };
+  
 
-const Syllabus = () => {
+const Chapters = () => {
 
 
 
   const router = useRouter()
 
-  function onCreateClick() {
-    router.push(ADMIN_ROUTES.createSyllabus)
+  const {subject} = useParams()
+
+  function onCreateClick(subject:string) {
+    router.push(ADMIN_ROUTES.createChapter(subject))
   }
 
   const { data, isLoading } = useQuery({
-    queryKey: ["syllabus"],
-    queryFn: () => apiHandler({ method: "GET", url: "/syllabus/all" }),
+    queryKey: ["chapters"],
+    queryFn: () => apiHandler({ method: "GET", url: "/chapter/all" }),
   })
 
   console.log(data?.data)
@@ -62,18 +81,21 @@ const Syllabus = () => {
     })
   }
 
+  function onRowClick(subject:string){
+    router.push(ADMIN_ROUTES.subject(subject))
+  }
+
 
   return (
     <Section direction="column" className="p-4">
       <div className=" pb-4 bg-background border-b border-background w-full flex">
-        <Button className="ml-auto" onClick={onCreateClick}>
-          Create Syllabus
+        <Button className="ml-auto" onClick={()=>onCreateClick(subject as string)}>
+          Create Chapter
         </Button>
       </div>
-      <Section direction="column" className=" rounded-sm border border-border relative">
+      <Section direction="column" className=" rounded-sm border border-border">
         {
-          isLoading ? <Main loading={true}></Main> :
-           <Main className="flex-col">
+          isLoading ? <Main loading={true}></Main> : <Main className="flex-col">
             <Section className="">
               <Table className="">
                 <TableHeader>
@@ -81,54 +103,46 @@ const Syllabus = () => {
                     <TableHead>Name</TableHead>
                     <TableHead>Code</TableHead>
                     <TableHead>Description</TableHead>
-                    <TableHead>Academic Year</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead>Classes</TableHead>
-                    <TableHead>Users</TableHead>
+                    <TableHead>Subject</TableHead>
+                    <TableHead>Term</TableHead>
                     <TableHead>Created</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
-                <TableBody className="overflow-y-scroll h-full ">
+                <TableBody className="overflow-y-scroll h-full">
                   {
-                    data?.data?.length === 0 ? <TableRow>
-                      <TableCell colSpan={9} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
-                        No syllabus found
-                      </TableCell>
-                    </TableRow>
-                    :
-                    data?.data?.map((syllabus: SyllabusData) => (
-                      <TableRow key={syllabus.id}>
-                        <TableCell className="font-medium">{syllabus.name}</TableCell>
-                        <TableCell>
+                    data?.data?.map((chapter: IChapter) => (
+                      <TableRow onClick={()=>onRowClick(chapter.name)} className="" key={chapter.id}>
+                        <TableCell className="font-medium border-b border-border">{chapter.name}</TableCell>
+                        <TableCell className="border-b border-border">
                           <Badge variant="outline" className="font-mono">
-                            {syllabus.code}
+                            {chapter.code}
                           </Badge>
                         </TableCell>
-                        <TableCell className="max-w-[300px]">
-                          <div className="truncate" title={syllabus.description}>
-                            {syllabus.description}
+                        <TableCell className="max-w-[300px] border-b border-border">
+                          <div className="truncate" title={chapter?.description || "-"}>
+                            {chapter?.description || "-"}
                           </div>
                         </TableCell>
-                        <TableCell>{syllabus.academicYear}</TableCell>
-                        <TableCell>
+                        <TableCell className="border-b border-border">
                           <Badge
-                            variant={syllabus.isActive ? "default" : "secondary"}
-                            className={syllabus.isActive ? "bg-green-100 text-green-800 hover:bg-green-100" : ""}
+                            variant={chapter.isActive ? "default" : "secondary"}
+                            className={chapter.isActive ? "bg-green-100 text-green-800 hover:bg-green-100" : ""}
                           >
-                            {syllabus.isActive ? "Active" : "Inactive"}
+                            {chapter.isActive ? "Active" : "Inactive"}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-center">
-                          <Badge variant="outline">{syllabus._count.classes}</Badge>
+                        <TableCell className="text-start border-b border-border">
+                          <Badge variant="outline">{chapter?.subject?.name || "-"}</Badge>
                         </TableCell>
-                        <TableCell className="text-center">
-                          <Badge variant="outline">{syllabus._count.users}</Badge>
+                        <TableCell className="text-start border-b border-border">
+                          <Badge variant="outline">{chapter?.term?.name || "-"}</Badge>
                         </TableCell>
-                        <TableCell className="text-center text-sm text-muted-foreground">
-                          {formatDate(syllabus.createdAt)}
+                        <TableCell className="text-start text-sm text-muted-foreground border-b border-border">
+                          {formatDate(chapter.createdAt)}
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="border-b border-border">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" className="h-8 w-8 p-0">
@@ -137,11 +151,11 @@ const Syllabus = () => {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => handleEdit(syllabus.id)}>
+                              <DropdownMenuItem onClick={() => handleEdit(chapter.id)}>
                                 <Edit className="mr-2 h-4 w-4" />
                                 Edit
                               </DropdownMenuItem>
-                              <DropdownMenuItem onClick={() => handleDelete(syllabus.id)} className="text-red-600">
+                              <DropdownMenuItem onClick={() => handleDelete(chapter.id)} className="text-red-600">
                                 <Trash2 className="mr-2 h-4 w-4" />
                                 Delete
                               </DropdownMenuItem>
@@ -162,4 +176,4 @@ const Syllabus = () => {
   )
 }
 
-export default Syllabus
+export default Chapters

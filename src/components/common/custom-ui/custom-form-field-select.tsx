@@ -12,7 +12,6 @@ const CustomFormFieldSelect = ({ form, name, description, placeholder, label, op
                     <Select
                         onValueChange={
                             (value:string)=>{
-                                console.log(value)
                                 field.onChange(value)
                             }
                             

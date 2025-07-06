@@ -12,39 +12,42 @@ import { apiHandler } from "@/utils/apiHandler"
 import { MoreHorizontal, Edit, Trash2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
-interface IClassData {
+export interface ISubject {
   id: string
   name: string
   code: string
-  description: string
-  academicYear: string
+  description?: string
   isActive: boolean
-  syllabus: {
-    name: string
-  }
   createdAt: string
   updatedAt: string
+ 
+  class:{
+    name:string
+    syllabus:{
+      name:string
+    }
+  }
   _count: {
-    users: number
-    subjects: number
-    terms: number
+    chapters: number
   }
 }
 
-const Classes = () => {
+const Subjects = () => {
+
+
 
   const router = useRouter()
 
   function onCreateClick() {
-    router.push(ADMIN_ROUTES.createClass)
+    router.push(ADMIN_ROUTES.createSubject)
   }
 
   const { data, isLoading } = useQuery({
-    queryKey: ['classes'],
-    queryFn: () => apiHandler({ method: 'GET', url: '/class/all' }),
-
+    queryKey: ["subjects"],
+    queryFn: () => apiHandler({ method: "GET", url: "/subject/all" }),
   })
 
+  console.log(data?.data)
 
   const handleEdit = (syllabusId: string) => {
     // Add your edit logic here
@@ -64,12 +67,16 @@ const Classes = () => {
     })
   }
 
+  function onRowClick(subject:string){
+    router.push(ADMIN_ROUTES.subject(subject))
+  }
+
 
   return (
     <Section direction="column" className="p-4">
       <div className=" pb-4 bg-background border-b border-background w-full flex">
         <Button className="ml-auto" onClick={onCreateClick}>
-          Create Class
+          Create Subject
         </Button>
       </div>
       <Section direction="column" className=" rounded-sm border border-border">
@@ -77,58 +84,51 @@ const Classes = () => {
           isLoading ? <Main loading={true}></Main> : <Main className="flex-col">
             <Section className="">
               <Table className="">
-                <TableHeader >
+                <TableHeader>
                   <TableRow>
-                    {[
-                      "Name",
-                      "Code",
-                      "Description",
-                      "Syllabus",
-                      "Subjects",
-                      "Users",
-                      "Terms",
-                      "Status",
-                      "Created",
-                      "Actions",
-                    ].map((header) => (
-                      <TableHead key={header} className="py-4 border border-border">{header}</TableHead>
-                    ))}
+                    <TableHead>Name</TableHead>
+                    <TableHead>Code</TableHead>
+                    <TableHead>Description</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Class</TableHead>
+                    <TableHead>Syllabus</TableHead>
+                    <TableHead>Created</TableHead>
+                    <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody className="overflow-y-scroll h-full">
                   {
-                    data?.data?.map((syllabus: IClassData) => (
-                      <TableRow key={syllabus.id} className="">
-                        <TableCell className="py-4 border border-border font-medium">{syllabus.name}</TableCell>
-                        <TableCell className="py-4 border border-border">
+                    data?.data?.map((subject: ISubject) => (
+                      <TableRow onClick={()=>onRowClick(subject.name)} className="" key={subject.id}>
+                        <TableCell className="font-medium border-b border-border">{subject.name}</TableCell>
+                        <TableCell className="border-b border-border">
                           <Badge variant="outline" className="font-mono">
-                            {syllabus.code}
+                            {subject.code}
                           </Badge>
                         </TableCell>
-                        <TableCell className="py-4 border border-border max-w-[300px]">
-                          <div className="truncate" title={syllabus.description}>
-                            {syllabus.description}
+                        <TableCell className="max-w-[300px] border-b border-border">
+                          <div className="truncate" title={subject?.description || "-"}>
+                            {subject?.description || "-"}
                           </div>
                         </TableCell>
-                        <TableCell className="py-4 border border-border">{syllabus.syllabus.name}</TableCell>
-                        <TableCell className="py-4 border border-border">
-                          <Badge variant="outline">{syllabus._count.subjects}</Badge></TableCell>
-                        <TableCell className="py-4 border border-border">
-                          <Badge variant="outline">{syllabus._count.users}</Badge></TableCell>
-                        <TableCell className="py-4 border border-border">
-                          <Badge variant="outline">{syllabus._count.terms}</Badge></TableCell>
-                        <TableCell className="py-4 border border-border">
+                        <TableCell className="border-b border-border">
                           <Badge
-                            variant={syllabus.isActive ? "default" : "secondary"}
-                            className={syllabus.isActive ? "bg-green-100 text-green-800 hover:bg-green-100" : ""}
+                            variant={subject.isActive ? "default" : "secondary"}
+                            className={subject.isActive ? "bg-green-100 text-green-800 hover:bg-green-100" : ""}
                           >
-                            {syllabus.isActive ? "Active" : "Inactive"}
+                            {subject.isActive ? "Active" : "Inactive"}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-sm py-4 border border-border text-muted-foreground">
-                          {formatDate(syllabus.createdAt)}
+                        <TableCell className="text-start border-b border-border">
+                          <Badge variant="outline">{subject?.class?.name || "-"}</Badge>
                         </TableCell>
-                        <TableCell className="py-4 border border-border">
+                        <TableCell className="text-start border-b border-border">
+                          <Badge variant="outline">{subject?.class?.syllabus?.name || "-"}</Badge>
+                        </TableCell>
+                        <TableCell className="text-start text-sm text-muted-foreground border-b border-border">
+                          {formatDate(subject.createdAt)}
+                        </TableCell>
+                        <TableCell className="border-b border-border">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" className="h-8 w-8 p-0">
@@ -137,11 +137,11 @@ const Classes = () => {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => handleEdit(syllabus.id)}>
+                              <DropdownMenuItem onClick={() => handleEdit(subject.id)}>
                                 <Edit className="mr-2 h-4 w-4" />
                                 Edit
                               </DropdownMenuItem>
-                              <DropdownMenuItem onClick={() => handleDelete(syllabus.id)} className="text-red-600">
+                              <DropdownMenuItem onClick={() => handleDelete(subject.id)} className="text-red-600">
                                 <Trash2 className="mr-2 h-4 w-4" />
                                 Delete
                               </DropdownMenuItem>
@@ -151,7 +151,7 @@ const Classes = () => {
                       </TableRow>
                     ))
                   }
-                </TableBody>
+                </TableBody>  
               </Table>
             </Section>
           </Main>
@@ -162,4 +162,4 @@ const Classes = () => {
   )
 }
 
-export default Classes
+export default Subjects

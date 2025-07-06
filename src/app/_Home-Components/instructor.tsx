@@ -32,7 +32,7 @@ const Instructor = ()=>{
                 Industry Leaders
               </span>
             </h2>
-            <p className="max-w-[800px] text-muted-foreground md:text-xl/relaxed">
+            <p className="max-w-[800px] md:text-xl/relaxed text-gray-700">
               Our expert instructors bring years of real-world experience to help you master new skills and achieve your
               goals
             </p>

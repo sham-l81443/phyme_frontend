@@ -54,14 +54,24 @@ const items = [
     icon:FileText
   },
   {
+    title:"Term",
+    url:"/admin/term",
+    icon:FileText
+  },
+  {
     title:"Subjects",
     url:"/admin/subjects",
     icon:FileText
   },
+  // {
+  //   title:"Chapters",
+  //   url:"/admin/chapters",
+  //   icon:FileText
+  // },
   {
-    title:"Chapters",
-    url:"/admin/chapters",
-    icon:FileText
+    title:"Users",
+    url:"/admin/users",
+    icon:Users
   }
 ]
 

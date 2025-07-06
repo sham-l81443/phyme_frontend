@@ -68,7 +68,7 @@ export default function SyllabusForm() {
 
                         <Scroll className=" p-3">
                             <div className=" grid grid-cols-1 md:grid-cols-2  space-x-10 ">
-                                <div className="space-y-6">
+                                <div className="space-y-10">
                                     <CustomFormFieldInput
                                     form={form}
                                     name="name"
@@ -85,9 +85,7 @@ export default function SyllabusForm() {
                                     description="A brief description of the syllabus content."
                                     />
                                 </div>
-                            </div>
 
-                            <div className="mt-6 grid grid-cols-2 w-full space-x-10">
                                 <div>
                                     <CustomFormFieldInput
                                         form={form}
@@ -98,8 +96,10 @@ export default function SyllabusForm() {
                                     />
                                 </div>
 
-
                             </div>
+
+                               
+
                         </Scroll>
                         <CreatePageFooter isPending={isPending}/>
                     </form>

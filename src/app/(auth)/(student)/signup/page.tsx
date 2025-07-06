@@ -118,7 +118,7 @@ const Signup = () => {
 
             <SyllabusSelector form={form} />
 
-            <ClassSelector form={form} />
+            <ClassSelector label="Class" form={form} name="classId" required />
 
             <FormField
               control={form.control}

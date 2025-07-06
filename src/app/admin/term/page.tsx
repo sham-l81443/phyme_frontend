@@ -12,39 +12,38 @@ import { apiHandler } from "@/utils/apiHandler"
 import { MoreHorizontal, Edit, Trash2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
-interface IClassData {
+export interface TermData {
   id: string
   name: string
   code: string
-  description: string
-  academicYear: string
+  description?: string
   isActive: boolean
-  syllabus: {
-    name: string
-  }
   createdAt: string
   updatedAt: string
+  class:{
+    name:string
+  }
   _count: {
-    users: number
-    subjects: number
-    terms: number
+    chapters: number
   }
 }
 
-const Classes = () => {
+const Term = () => {
+
+
 
   const router = useRouter()
 
   function onCreateClick() {
-    router.push(ADMIN_ROUTES.createClass)
+    router.push(ADMIN_ROUTES.createTerm)
   }
 
   const { data, isLoading } = useQuery({
-    queryKey: ['classes'],
-    queryFn: () => apiHandler({ method: 'GET', url: '/class/all' }),
-
+    queryKey: ["term"],
+    queryFn: () => apiHandler({ method: "GET", url: "/term/all" }),
   })
 
+  console.log(data?.data)
 
   const handleEdit = (syllabusId: string) => {
     // Add your edit logic here
@@ -69,7 +68,7 @@ const Classes = () => {
     <Section direction="column" className="p-4">
       <div className=" pb-4 bg-background border-b border-background w-full flex">
         <Button className="ml-auto" onClick={onCreateClick}>
-          Create Class
+          Create Term
         </Button>
       </div>
       <Section direction="column" className=" rounded-sm border border-border">
@@ -77,58 +76,51 @@ const Classes = () => {
           isLoading ? <Main loading={true}></Main> : <Main className="flex-col">
             <Section className="">
               <Table className="">
-                <TableHeader >
+                <TableHeader>
                   <TableRow>
-                    {[
-                      "Name",
-                      "Code",
-                      "Description",
-                      "Syllabus",
-                      "Subjects",
-                      "Users",
-                      "Terms",
-                      "Status",
-                      "Created",
-                      "Actions",
-                    ].map((header) => (
-                      <TableHead key={header} className="py-4 border border-border">{header}</TableHead>
-                    ))}
+                    <TableHead>Name</TableHead>
+                    <TableHead>Code</TableHead>
+                    <TableHead>Description</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Class</TableHead>
+                    <TableHead>Subjects</TableHead>
+                    <TableHead>Created</TableHead>
+                    <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody className="overflow-y-scroll h-full">
                   {
-                    data?.data?.map((syllabus: IClassData) => (
-                      <TableRow key={syllabus.id} className="">
-                        <TableCell className="py-4 border border-border font-medium">{syllabus.name}</TableCell>
-                        <TableCell className="py-4 border border-border">
+                    data?.data?.map((term: TermData) => (
+                      <TableRow key={term.id}>
+                        <TableCell className="font-medium">{term.name}</TableCell>
+                        <TableCell>
                           <Badge variant="outline" className="font-mono">
-                            {syllabus.code}
+                            {term.code}
                           </Badge>
                         </TableCell>
-                        <TableCell className="py-4 border border-border max-w-[300px]">
-                          <div className="truncate" title={syllabus.description}>
-                            {syllabus.description}
+                        <TableCell className="max-w-[300px]">
+                          <div className="truncate" title={term?.description || "-"}>
+                            {term?.description || "-"}
                           </div>
                         </TableCell>
-                        <TableCell className="py-4 border border-border">{syllabus.syllabus.name}</TableCell>
-                        <TableCell className="py-4 border border-border">
-                          <Badge variant="outline">{syllabus._count.subjects}</Badge></TableCell>
-                        <TableCell className="py-4 border border-border">
-                          <Badge variant="outline">{syllabus._count.users}</Badge></TableCell>
-                        <TableCell className="py-4 border border-border">
-                          <Badge variant="outline">{syllabus._count.terms}</Badge></TableCell>
-                        <TableCell className="py-4 border border-border">
+                        <TableCell>
                           <Badge
-                            variant={syllabus.isActive ? "default" : "secondary"}
-                            className={syllabus.isActive ? "bg-green-100 text-green-800 hover:bg-green-100" : ""}
+                            variant={term.isActive ? "default" : "secondary"}
+                            className={term.isActive ? "bg-green-100 text-green-800 hover:bg-green-100" : ""}
                           >
-                            {syllabus.isActive ? "Active" : "Inactive"}
+                            {term.isActive ? "Active" : "Inactive"}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-sm py-4 border border-border text-muted-foreground">
-                          {formatDate(syllabus.createdAt)}
+                        <TableCell className="text-start">
+                          <Badge variant="outline">{term?.class?.name || "-"}</Badge>
                         </TableCell>
-                        <TableCell className="py-4 border border-border">
+                        <TableCell className="text-start">
+                          <Badge variant="outline">{term?._count?.chapters}</Badge>
+                        </TableCell>
+                        <TableCell className="text-start text-sm text-muted-foreground">
+                          {formatDate(term.createdAt)}
+                        </TableCell>
+                        <TableCell>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" className="h-8 w-8 p-0">
@@ -137,11 +129,11 @@ const Classes = () => {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => handleEdit(syllabus.id)}>
+                              <DropdownMenuItem onClick={() => handleEdit(term.id)}>
                                 <Edit className="mr-2 h-4 w-4" />
                                 Edit
                               </DropdownMenuItem>
-                              <DropdownMenuItem onClick={() => handleDelete(syllabus.id)} className="text-red-600">
+                              <DropdownMenuItem onClick={() => handleDelete(term.id)} className="text-red-600">
                                 <Trash2 className="mr-2 h-4 w-4" />
                                 Delete
                               </DropdownMenuItem>
@@ -151,7 +143,7 @@ const Classes = () => {
                       </TableRow>
                     ))
                   }
-                </TableBody>
+                </TableBody>  
               </Table>
             </Section>
           </Main>
@@ -162,4 +154,4 @@ const Classes = () => {
   )
 }
 
-export default Classes
+export default Term

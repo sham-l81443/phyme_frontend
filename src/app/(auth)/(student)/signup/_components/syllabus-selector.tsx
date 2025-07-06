@@ -3,7 +3,7 @@ import { apiHandler } from '@/utils/apiHandler'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 
-const SyllabusSelector = ({form,label,required=false}: {form: any,label?: string,required?: boolean}) => {
+const SyllabusSelector = ({form,label,required=false,name="syllabusId"}: {form: any,label?: string,required?: boolean,name?: string}) => {
 
 
   const {data} = useQuery({
@@ -16,7 +16,7 @@ const SyllabusSelector = ({form,label,required=false}: {form: any,label?: string
     <>
     <CustomFormFieldSelect
     form={form}
-    name="syllabusId"
+    name={name}
     required={false}
     options={data?.data.map((syllabus: any) => ({id: syllabus.id, name: `${syllabus.name}  (${syllabus.code})`}))}
     label={label}
